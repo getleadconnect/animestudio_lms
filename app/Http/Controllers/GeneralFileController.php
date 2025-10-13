@@ -1,0 +1,137 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+
+use App\Models\PrivacyPolicy;
+use App\Models\DeleteAccountRequest;
+use App\Models\ContactUsMessage;
+
+use Validator;
+use DataTables;
+use Session;
+use Auth;
+
+class GeneralFileController extends Controller
+{
+
+  public function __construct()
+  {
+     //$this->middleware('admin');
+  }
+  
+  public function index()
+  {
+   $privacy=PrivacyPolicy::where('status',1)->where('id',1)->first();
+   return view('admin.general_files.privacy_policy')->with('privacy',$privacy);
+  }
+    
+  public function terms()
+  {
+   $terms=PrivacyPolicy::where('status',1)->where('id',2)->first();
+   return view('admin.general_files.terms_condition')->with('terms',$terms);
+  }
+  
+ 
+ public function delete_account()
+  {
+   return view('admin.general_files.delete_account');
+  }
+  
+  public function contact_us()
+  {
+   return view('admin.general_files.contact_us');
+  }
+
+
+public function store(Request $request)
+  {
+	  $validate = Validator::make(request()->all(),[
+			 'name'=>'required',
+			 'mobile'=>'required',
+			 'message'=>'required',
+        ]);
+	  
+	    if ($validate->fails())
+        {
+            return response()->json(['msg' =>'Some details are missing, Try again!' , 'status' => false]);
+        }
+	
+		try
+		{
+			
+			$result=DeleteAccountRequest::create([
+			 'name'=>$request->name,
+			 'mobile'=>$request->mobile,
+			 'message'=>$request->message,
+			]);
+
+			if($result)
+			{
+				return response()->json(['msg' =>'Account delete request successfully send!' , 'status' => true]);
+			}
+			else
+			{
+				return response()->json(['msg' =>'Some details are missing, Please check.' , 'status' => false]);
+			}
+
+		}
+		catch(\Exception $e)
+		{
+			\Log::info($e->getMessage());
+			return response()->json(['msg' =>'Something wrong, Please check.' , 'status' => false]);
+		}
+		
+  }
+
+
+
+public function save_contact_us(Request $request)
+  {
+	  $validate = Validator::make(request()->all(),[
+			 'name'=>'required',
+			 'mobile'=>'required',
+			 'email'=>'required',
+			 'message'=>'required',
+        ]);
+	  
+	    if ($validate->fails())
+        {
+            return response()->json(['msg' =>'Some details are missing, Try again!' , 'status' => false]);
+        }
+	
+		try
+		{
+			
+			$result=ContactUsMessage::create([
+			 'name'=>$request->name,
+			 'mobile'=>$request->mobile,
+			 'email'=>$request->email,
+			 'message'=>$request->message,
+			]);
+
+			if($result)
+			{
+				return response()->json(['msg' =>'Message successfully send!' , 'status' => true]);
+			}
+			else
+			{
+				return response()->json(['msg' =>'Some details are missing, Please check.' , 'status' => false]);
+			}
+
+		}
+		catch(\Exception $e)
+		{
+			\Log::info($e->getMessage());
+			return response()->json(['msg' =>'Something wrong, Please check.' , 'status' => false]);
+		}
+		
+  }
+
+
+
+}
