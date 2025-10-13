@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use App\Models\PrivacyPolicy;
 use App\Models\DeleteAccountRequest;
 use App\Models\ContactUsMessage;
+use App\Models\Student;
 
 use Validator;
 use DataTables;
@@ -63,20 +64,28 @@ public function store(Request $request)
 	
 		try
 		{
-			
-			$result=DeleteAccountRequest::create([
-			 'name'=>$request->name,
-			 'mobile'=>$request->mobile,
-			 'message'=>$request->message,
-			]);
-
-			if($result)
+			$sdt=Student::where('mobile',$request->mobile)->first();
+			if(!empty($sdt))
 			{
-				return response()->json(['msg' =>'Account delete request successfully send!' , 'status' => true]);
+				$result=DeleteAccountRequest::create([
+				'name'=>$request->name,
+				'student_id'=>$sdt->id,
+				'mobile'=>$request->mobile,
+				'message'=>$request->message,
+				]);
+
+				if($result)
+				{
+					return response()->json(['msg' =>'Account delete request successfully send!' , 'status' => true]);
+				}
+				else
+				{
+					return response()->json(['msg' =>'Some details are missing, Please check.' , 'status' => false]);
+				}
 			}
 			else
 			{
-				return response()->json(['msg' =>'Some details are missing, Please check.' , 'status' => false]);
+				return response()->json(['msg' =>'Account Not Found, Please enter registred mobile correctly. Thank You' , 'status' => false]);
 			}
 
 		}

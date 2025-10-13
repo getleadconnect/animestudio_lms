@@ -74,17 +74,41 @@
 
         .footer h5 {
             color: var(--secondary-color);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            font-size: 1.2rem;
         }
 
         .footer a {
             color: #ecf0f1;
             text-decoration: none;
             transition: color 0.3s;
+            display: inline-block;
         }
 
         .footer a:hover {
             color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .footer ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer ul li i.fa-chevron-right {
+            font-size: 0.7rem;
+            color: var(--secondary-color);
+        }
+
+        .footer .contact-info li {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .footer .contact-info li i {
+            color: var(--secondary-color);
+            width: 20px;
+            margin-top: 2px;
         }
 
         .social-links a {
@@ -148,7 +172,11 @@
                                         <i class="fas fa-user me-2"></i> Profile
                                     </a>
                                 </li>
-                                
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('student.delete-account') }}">
+                                        <i class="fas fa-user-times me-2"></i> Delete Account
+                                    </a>
+                                </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form action="{{ route('student.logout') }}" method="POST" class="d-inline">
@@ -181,7 +209,7 @@
     <footer class="footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 mb-4 mb-md-0">
                     <h5>About AnimeStudio Learning</h5>
                     <p>Empowering students with quality education and comprehensive learning resources to achieve their career goals.</p>
                     <div class="social-links mt-3">
@@ -191,37 +219,28 @@
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4 mb-4 mb-md-0">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="{{ url('/about') }}">About Us</a></li>
-                        <li><a href="{{ url('/courses') }}">Our Courses</a></li>
-                        <li><a href="{{ url('/contact') }}">Contact</a></li>
-                        <li><a href="{{ url('/login') }}">Login</a></li>
+                        <li><a href="{{ url('/about') }}"><i class="fas fa-chevron-right me-2"></i> About Us</a></li>
+                        <li><a href="{{ url('/courses') }}"><i class="fas fa-chevron-right me-2"></i> Our Courses</a></li>
+                        <li><a href="{{ url('/contact') }}"><i class="fas fa-chevron-right me-2"></i> Contact</a></li>
+                        <li><a href="{{ url('/login') }}"><i class="fas fa-chevron-right me-2"></i> Login</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3">
-                    <h5>Popular Courses</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">LDC Preparation</a></li>
-                        <li><a href="#">PSC Coaching</a></li>
-                        <li><a href="#">Banking Exams</a></li>
-                        <li><a href="#">SSC Preparation</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-4 mb-4 mb-md-0">
                     <h5>Contact Info</h5>
-                    <ul class="list-unstyled">
-                        <li><i class="fas fa-map-marker-alt"></i> Your Address Here</li>
-                        <li><i class="fas fa-phone"></i> +91 1234567890</li>
-                        <li><i class="fas fa-envelope"></i> info@aimlearning.com</li>
+                    <ul class="list-unstyled contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> <span>Your Address Here</span></li>
+                        <li><i class="fas fa-phone"></i> <span>+91 1234567890</span></li>
+                        <li><i class="fas fa-envelope"></i> <span>info@aimlearning.com</span></li>
                     </ul>
                 </div>
             </div>
             <hr class="my-4" style="background-color: rgba(255,255,255,0.1);">
             <div class="row">
                 <div class="col-md-6">
-                    <p class="mb-0">&copy; 2024 AnimeStudio Learning Platform. All rights reserved.</p>
+                    <p class="mb-0">&copy; 2025 AnimeStudio Learning Platform. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-end">
                     <a href="{{ url('/privacy-policy') }}" class="me-3">Privacy Policy</a>

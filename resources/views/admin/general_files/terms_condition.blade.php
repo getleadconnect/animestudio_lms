@@ -17,7 +17,7 @@
   <!-- loader-->
 	<link href="{{asset('assets/css/pace.min.css')}}" rel="stylesheet" />
 
-  <title>AIM-Balussery</title>
+  <title>AnimeStudio</title>
 </head>
 
 <body class="bg-surface">
@@ -28,10 +28,10 @@
        <header>
           <nav class="navbar navbar-expand-lg navbar-light bg-white rounded-0 border-bottom">
             <div class="container">
-              <a class="navbar-brand" href="#" style="margin-right:50px;">
-			  <!--<img src="{{asset('assets/images/brand-logo-2.png')}}" width="140" alt=""/>-->
-			  <h4>AIM</h4>
-			  </a>
+              <a class="navbar-brand" href="#">
+			          <img src="{{asset('assets/images/avatars/animestudio-logo-white.png')}}" width="70" alt="" style="background-color:#666363;"/>
+			          <h4 style="float:right;margin-top:19px;">&nbsp;AnimeStudio</h4>
+			        </a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
@@ -69,7 +69,7 @@
                     </ul>
                   </li> -->
                   <li class="nav-item">
-                    <a class="nav-link" href="{{url('contact-us')}}">Contact Us</a>
+                    <a class="nav-link" href="{{url('contact')}}">Contact Us</a>
                   </li> 
                 </ul>
 
@@ -113,7 +113,7 @@
        <!--end page main-->
 
        <footer class="bg-white border-top p-3 text-center fixed-bottom">
-        <p class="mb-0">Copyright © Aim-Balussery,2021. All right reserved.</p>
+        <p class="mb-0">Copyright © AnimeStudio-Dubai,UAE,2025. All right reserved.</p>
       </footer>
 
   </div>

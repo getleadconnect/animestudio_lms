@@ -590,6 +590,11 @@
         color: #43e97b;
     }
 
+    .info-card.card-tips .info-card-icon {
+        background: #fffbf0;
+        color: #ffc107;
+    }
+
     @media (max-width: 767px) {
         .info-card {
             padding: 15px;
@@ -650,9 +655,11 @@
             @endif
 
             <!-- Info Cards Row -->
-            <div class="row mt-4">
+    <div class="row mt-4">
+        <div class="col-12 col-md-10 col-lg-10">
 
-            <!-- My Courses Card -->
+            <div class="row">
+                <!-- My Courses Card -->
                 <div class="col-12 col-md-6 col-lg-3">
                     <a href="{{ url('/courses') }}" class="info-card card-courses">
                         <div class="info-card-icon">
@@ -664,6 +671,7 @@
                         </div>
                     </a>
                 </div>
+
                 <!-- Mock Tests Card -->
                 <div class="col-12 col-md-6 col-lg-3">
                     <a href="{{ route('student.course-mock-test') }}" class="info-card card-tests">
@@ -703,8 +711,26 @@
                     </a>
                 </div>
 
-                
             </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-2">
+
+                <a href="{{ route('student.easy-tips') }}" class="info-card card-tips">
+                        <div class="info-card-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="info-card-content">
+                            <p class="info-card-text">Easy Tips</p>
+                            <span class="info-card-count">View Tips</span>
+                        </div>
+                    </a>
+        </div>
+
+        </div>
+
+
+
 
             <div class="row mt-3">
                 <!-- My Courses -->
@@ -715,7 +741,7 @@
                             <div class="courses-scroll-container">
                                 <div class="row g-3">
                                     @foreach($myCourses as $course)
-                                    <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="col-12 col-md-6 col-lg-6">
                                         <div class="course-item">
                                             <!-- Course Body with Image Left and Details Right -->
                                             <div class="course-item-body">
@@ -859,6 +885,7 @@
                         @endif
                     </div>
                 </div>
+
             </div>
         </div>
     </section>

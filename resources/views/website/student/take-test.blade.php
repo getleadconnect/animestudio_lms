@@ -97,7 +97,7 @@
                 <div class="col-md-6 text-end">
                     <span class="badge bg-light text-dark fs-6">
                         <i class="far fa-clock me-1"></i>
-                        <span id="timer">{{ $questionPaper->duration ?? 60 }}:00</span>
+                        <span id="timer">{{ str_pad($remainingMinutes, 2, '0', STR_PAD_LEFT) }}:00</span>
                     </span>
                 </div>
             </div>
@@ -232,6 +232,7 @@
 <input type="hidden" id="question-paper-id" value="{{ $questionPaper->id }}">
 <input type="hidden" id="total-questions" value="{{ count($questions) }}">
 <input type="hidden" id="duration" value="{{ $questionPaper->duration ?? 60 }}">
+<input type="hidden" id="remaining-minutes" value="{{ $remainingMinutes }}">
 
 @endsection
 
@@ -243,6 +244,7 @@
     const questionPaperId = document.getElementById('question-paper-id').value;
     const totalQuestions = parseInt(document.getElementById('total-questions').value);
     const duration = parseInt(document.getElementById('duration').value);
+    const remainingMinutes = parseInt(document.getElementById('remaining-minutes').value);
 
     let currentQuestionIndex = 0;
     let answers = {}; // Store answers {questionId: answerValue}
@@ -258,7 +260,7 @@
 
     // Timer function
     function initializeTimer() {
-        let timeLeft = duration * 60; // Convert to seconds
+        let timeLeft = remainingMinutes * 60; // Use remaining time from server in seconds
         const timerDisplay = document.getElementById('timer');
 
         timerInterval = setInterval(function() {
@@ -543,11 +545,13 @@
     // Auto submit when time is up
     function autoSubmitTest() {
         Swal.fire({
-            title: 'Time is Up!',
-            text: 'Your test will be submitted automatically.',
+            title: 'Your time is over',
+            text: 'Click OK to save test and view results. Not attempted questions will be marked as skipped.',
             icon: 'warning',
-            confirmButtonColor: '#ffc107',
-            allowOutsideClick: false
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'OK',
+            allowOutsideClick: false,
+            allowEscapeKey: false
         }).then(() => {
             finishTest();
         });

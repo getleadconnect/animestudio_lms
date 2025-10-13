@@ -54,6 +54,7 @@
                                  <tr>
 									
 									<th>Id</th>
+									<th>Student Id</th>
 									<th>Name</th>
 									<th>Mobile</th>
 									<th>Message</th>
@@ -138,6 +139,7 @@ $(document).ready(function()
         columns: [
             
 			{"data": "id" },
+			{"data": "sid" },
 			{"data": "name" },
 			{"data": "mob" },
 			{"data": "mesg" },
@@ -153,7 +155,7 @@ $('#datatable tbody').on('click','.btnDel',function()
 {
 	Swal.fire({
 	  title: "Are you sure?",
-	  text: "You want to delete this item?",
+	  text: "You want to delete your Account?",
 	  icon: "warning",
 	  showCancelButton: true,
 	  confirmButtonColor: "#3085d6",

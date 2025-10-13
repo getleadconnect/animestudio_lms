@@ -2,10 +2,10 @@
         <aside class="sidebar-wrapper" data-simplebar="true">
           <div class="sidebar-header">
             <div>
-             <img src="{{asset('assets/images/aim-logo.svg')}}" class="logo-icon" alt="logo icon">
+             <img src="{{asset('assets/images/avatars/animestudio-logo-white.png')}}" class="logo-icon" alt="logo icon" style="background-color:#666363;">
             </div>
             <div>
-              <h4 class="logo-text">AIM</h4>
+              <h4 class="logo-text" style="font-size:20px;" >AnimeStudio</h4>
             </div>
             <div class="toggle-icon ms-auto"><i class="bi bi-list"></i>
             </div>

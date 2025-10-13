@@ -166,7 +166,7 @@
 							<div class="form-group">
 								<label>File Type</label>
 								<select class="form-control mb-3" id="file_type"  name="file_type" required>
-								<option value="">Select</option>
+								<option value="" selected>Select</option>
 								<option value="1">Video</option>	
 								<option value="2">PDF</option>	
 								</select>

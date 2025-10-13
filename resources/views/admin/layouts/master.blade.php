@@ -63,9 +63,9 @@
               <div class="dropdown dropdown-user-setting">
                 <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">
                   <div class="user-setting d-flex align-items-center gap-3">
-                    <img src="{{asset('assets/images/avatars/1.png')}}" class="user-img" alt="">
+                    <img src="{{asset('assets/images/avatars/animestudio-logo-white.png')}}" class="user-img" alt="" style="background-color:#666363;">
                     <div class="d-none d-sm-block">
-                       <p class="user-name mb-0">Aim</p>
+                       <p class="user-name mb-0">AnimeStudio</p>
                       <small class="mb-0 dropdown-user-designation">{{Session::get('admin_name')}}</small>
                     </div>
                   </div>

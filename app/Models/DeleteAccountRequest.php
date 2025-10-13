@@ -11,7 +11,7 @@ class DeleteAccountRequest extends Model
 		
 	protected $table='delete_account_requests';
 	
-	protected $fillable = ['id','name','mobile','message'];
+	protected $fillable = ['id','name','mobile','student_id','message'];
 	 
     protected $hidden = [
 		'created_at',

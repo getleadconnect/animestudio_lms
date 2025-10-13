@@ -50,7 +50,12 @@ class MockTestController extends Controller
                 session(['test_start_time_' . $questionPaperId => now()]);
             }
 
-            return view('website.student.take-test', compact('questionPaper', 'questions', 'existingAttempt'));
+            // Calculate remaining time
+            $startTime = session('test_start_time_' . $questionPaperId);
+            $elapsedMinutes = $startTime ? $startTime->diffInMinutes(now()) : 0;
+            $remainingMinutes = max(0, $questionPaper->duration - $elapsedMinutes);
+
+            return view('website.student.take-test', compact('questionPaper', 'questions', 'existingAttempt', 'remainingMinutes'));
 
         } catch (\Exception $e) {
             \Log::error('Take test error: ' . $e->getMessage());

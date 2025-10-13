@@ -62,6 +62,7 @@ public function view_data(Request $request)
             {
 			
 					$uData['id'] = ++$key;
+					$uData['sid'] =$r->student_id;
 					$uData['name'] =$r->name;
 					$uData['mob'] =$r->mobile;
 					$uData['mesg'] =$r->message;
@@ -80,23 +81,33 @@ public function view_data(Request $request)
         }
 		return $data;
 	}		
-
- 
 	
   public function destroy($id)
 	{
-		$dat=DeleteAccountRequest::findorfail($id);
-		
+			$dat=DeleteAccountRequest::findorfail($id);
+
 			if(!empty($dat))
 			{
+
+				$sdat=Student::findorfail($dat->student_id);
+			
+				if(!empty($sdat))
+				{
+					$res1=User::where('student_id',$sdat->id)->delete();
+					$res2=StudentDevice::where('student_id',$sdat->id)->delete();
+					$res3=Subscription::where('student_id',$sdat->id)->delete();
+					
+					$sdat->delete();
+				}
+
 				$dat->delete();
-				return response()->json(['msg' =>'Message successfuly removed.!' , 'status' => true]);
+				return response()->json(['msg' =>'User account successfuly removed.!' , 'status' => true]);
 			}
 			else
 			{
 				return response()->json(['msg' =>'Something wrong, try again!' , 'status' => false]);
 			}
-			
+	
 	}
 		
 	

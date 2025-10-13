@@ -63,6 +63,14 @@ Route::controller(StudentAuthController::class)->group(function() {
         // Video comment routes
         Route::post('/add-video-comment', 'addVideoComment')->name('student.add-video-comment');
         Route::get('/get-video-comments', 'getVideoComments')->name('student.get-video-comments');
+
+        // Delete account routes
+        Route::get('/delete-account-request', 'showDeleteAccountForm')->name('student.delete-account');
+        Route::post('/delete-account-request', 'submitDeleteAccountRequest')->name('student.delete-account.submit');
+
+        // Easy Tips routes
+        Route::get('/easytips', 'easyTips')->name('student.easy-tips');
+        Route::get('/easytips/filter', 'filterEasyTips')->name('student.easy-tips.filter');
     });
 });
 

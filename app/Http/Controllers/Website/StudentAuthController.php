@@ -21,6 +21,7 @@ use App\Models\VideoCompletedStatus;
 use App\Models\VideoComment;
 use App\Models\Video;
 use App\Models\SuccessStory;
+use App\Models\EasyTips;
 use Session;
 use DB;
 
@@ -822,6 +823,136 @@ class StudentAuthController extends Controller
             \Log::error('Success stories error: ' . $e->getMessage());
             Session::flash('message', 'danger#Error loading success stories. Please try again.');
             return redirect()->route('student.dashboard');
+        }
+    }
+
+    // Show delete account request form
+    public function showDeleteAccountForm()
+    {
+        try {
+            $user = Auth::guard('student')->user();
+            $student = session('student_details') ?? Student::find($user->student_id);
+
+            return view('website.student.delete-account', compact('student'));
+
+        } catch (\Exception $e) {
+            \Log::error('Delete account form error: ' . $e->getMessage());
+            Session::flash('message', 'danger#Error loading delete account page. Please try again.');
+            return redirect()->route('student.dashboard');
+        }
+    }
+
+    // Submit delete account request
+    public function submitDeleteAccountRequest(Request $request)
+    {
+        try {
+            $user = Auth::guard('student')->user();
+            $student = Student::find($user->student_id);
+
+            // Validation
+            $validator = Validator::make($request->all(), [
+                'message' => 'required|string|min:20|max:1000'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            // Check if student already has a pending delete request
+            $existingRequest = \App\Models\DeleteAccountRequest::where('mobile', $student->mobile)
+                                                               ->orderBy('created_at', 'DESC')
+                                                               ->first();
+
+            if ($existingRequest) {
+                // Check if request was made within last 30 days
+                $daysSinceRequest = \Carbon\Carbon::parse($existingRequest->created_at)->diffInDays(\Carbon\Carbon::now());
+
+                if ($daysSinceRequest < 30) {
+                    Session::flash('message', 'warning#You already have a pending delete account request submitted on ' .
+                                            \Carbon\Carbon::parse($existingRequest->created_at)->format('d M Y') .
+                                            '. Please wait for admin review.');
+                    return redirect()->back();
+                }
+            }
+
+            // Create delete account request
+            \App\Models\DeleteAccountRequest::create([
+                'name' => $student->student_name,
+                'mobile' => $student->mobile,
+                'student_id'=>Auth::user()->student_id,
+                'message' => $request->message
+            ]);
+
+            Session::flash('message', 'success#Your account deletion request has been submitted successfully. Our admin team will review and process your request soon.');
+            return redirect()->route('student.dashboard');
+
+        } catch (\Exception $e) {
+            \Log::error('Delete account request error: ' . $e->getMessage());
+            Session::flash('message', 'danger#Failed to submit delete account request. Please try again.');
+            return redirect()->back()->withInput();
+        }
+    }
+
+    // Easy Tips Page
+    public function easyTips()
+    {
+        try {
+            $user = Auth::guard('student')->user();
+
+            // Get student's purchased courses
+            $courses = DB::table('subscriptions')
+                        ->join('courses', 'subscriptions.course_id', '=', 'courses.id')
+                        ->select('courses.id', 'courses.course_name')
+                        ->where('subscriptions.student_id', $user->student_id)
+                        ->where('subscriptions.status', 1)
+                        ->where('courses.status', 1)
+                        ->orderBy('courses.course_name', 'asc')
+                        ->get();
+
+            return view('website.student.easy-tips', compact('courses'));
+
+        } catch (\Exception $e) {
+            \Log::error('Easy tips page error: ' . $e->getMessage());
+            Session::flash('message', 'danger#Error loading easy tips page. Please try again.');
+            return redirect()->route('student.dashboard');
+        }
+    }
+
+    // Filter easy tips by course
+    public function filterEasyTips(Request $request)
+    {
+        try {
+            $courseId = $request->input('course_id');
+
+            if (!$courseId) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Course ID is required',
+                    'tips' => []
+                ]);
+            }
+
+            // Get easy tips for the selected course
+            $tips = EasyTips::select('id', 'course_id', 'title', 'description', 'tips_icon', 'tips_file', 'file_type')
+                            ->where('course_id', $courseId)
+                            ->where('status', 1)
+                            ->orderBy('created_at', 'DESC')
+                            ->get();
+
+            return response()->json([
+                'success' => true,
+                'tips' => $tips
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Filter easy tips error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to load tips',
+                'tips' => []
+            ], 500);
         }
     }
 }
