@@ -223,7 +223,7 @@ async function handlePurchase() {
         if (!data.authenticated) {
             // Student not logged in - redirect to login with return URL
             const returnUrl = encodeURIComponent(window.location.href);
-            window.location.href = `{{ route('student.login') }}?return_url=${returnUrl}&course_id={{ $course->id }}`;
+            window.location.href = `{{ env("APP_URL")."/student-login" }}?return_url=${returnUrl}&course_id={{ $course->id }}`;
             return;
         }
 
@@ -231,7 +231,7 @@ async function handlePurchase() {
             alert('You have already purchased this course!');
             button.disabled = false;
             button.innerHTML = originalHtml;
-            window.location.href = '{{ route("student.dashboard") }}';
+            window.location.href = '{{ env("APP_URL")."/student-dashboard" }}';
             return;
         }
 
@@ -251,7 +251,7 @@ async function initiateStripeCheckout() {
     const button = document.getElementById('payment-button');
 
     try {
-        const response = await fetch('{{ route("stripe.create-checkout-session") }}', {
+        const response = await fetch('{{ env("APP_URL")."/stripe/create-checkout-session" }}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
