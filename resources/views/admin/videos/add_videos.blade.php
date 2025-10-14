@@ -97,7 +97,7 @@
 						</div>
 																		
 						<div class="col-lg-6 col-xl-6 col-xxl-6">
-						<label>Video File</label>
+						<label>Video File(.mp4 Only)</label>
 						<input class="form-control mb-3" type="file" onchange="fileValidation2()" id="video_file" name="video_file" placeholder="Video file" required>
 						</div>
 
