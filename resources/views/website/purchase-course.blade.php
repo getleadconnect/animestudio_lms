@@ -196,7 +196,7 @@ async function handlePurchase() {
 
     try {
         // Check if student is authenticated
-        const response = await fetch('{{ route("course.check-auth") }}', {
+        const response = await fetch('{{ url("/course/check-auth") }}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
