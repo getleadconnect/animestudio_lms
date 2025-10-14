@@ -226,6 +226,7 @@ $(function()
  });
 
 
+
  $('#details').summernote({
 		  dialogsInBody: true,
           height: '300',

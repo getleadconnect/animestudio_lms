@@ -36,7 +36,7 @@
  
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 
-  <title>AIM- Balussery</title>
+  <title>AnimeStudio</title>
 </head>
 
 <body class="pace-done">
