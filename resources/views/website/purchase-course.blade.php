@@ -128,16 +128,16 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-2">
                         <span>Course Price:</span>
-                        <span class="text-decoration-line-through text-muted">₹{{ number_format($course->rate, 2) }}</span>
+                        <span class="text-decoration-line-through text-muted">AED {{ number_format($course->rate, 2) }}</span>
                     </div>
                     @if($course->discount_rate && $course->discount_rate < $course->rate)
                         <div class="d-flex justify-content-between mb-2">
                             <span>Discounted Price:</span>
-                            <span class="text-success fw-bold">₹{{ number_format($course->discount_rate, 2) }}</span>
+                            <span class="text-success fw-bold">AED {{ number_format($course->discount_rate, 2) }}</span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-success">You Save:</span>
-                            <span class="text-success fw-bold">₹{{ number_format($course->rate - $course->discount_rate, 2) }}</span>
+                            <span class="text-success fw-bold">AED {{ number_format($course->rate - $course->discount_rate, 2) }}</span>
                         </div>
                     @endif
 
@@ -145,10 +145,10 @@
 
                     <div class="d-flex justify-content-between mb-3">
                         <h5 class="mb-0">Total Amount:</h5>
-                        <h5 class="mb-0 text-success">₹{{ number_format($course->discount_rate ?: $course->rate, 2) }}</h5>
+                        <h5 class="mb-0 text-success">AED {{ number_format($course->discount_rate ?: $course->rate, 2) }}</h5>
                     </div>
 
-                    <button type="button" class="btn btn-success w-100 btn-lg" onclick="submitPayment()">
+                    <button type="button" id="payment-button" class="btn btn-success w-100 btn-lg" onclick="handlePurchase()">
                         <i class="fas fa-lock"></i> Proceed to Payment
                     </button>
 
@@ -185,25 +185,110 @@
 </div>
 
 <script>
-function submitPayment() {
-    const form = document.getElementById('paymentForm');
+// Handle Purchase Button Click with Authentication Check
+async function handlePurchase() {
+    const button = document.getElementById('payment-button');
+    const originalHtml = button.innerHTML;
 
-    // Validate form
-    if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
+    // Disable button and show loading
+    button.disabled = true;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Processing...';
+
+    try {
+        // Check if student is authenticated
+        const response = await fetch('{{ route("course.check-auth") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                course_id: {{ $course->id }}
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            const text = await response.text();
+            console.error('Received non-JSON response:', text);
+            throw new Error('Server returned non-JSON response');
+        }
+
+        const data = await response.json();
+
+        if (!data.authenticated) {
+            // Student not logged in - redirect to login with return URL
+            const returnUrl = encodeURIComponent(window.location.href);
+            window.location.href = `{{ route('student.login') }}?return_url=${returnUrl}&course_id={{ $course->id }}`;
+            return;
+        }
+
+        if (data.already_subscribed) {
+            alert('You have already purchased this course!');
+            button.disabled = false;
+            button.innerHTML = originalHtml;
+            window.location.href = '{{ route("student.dashboard") }}';
+            return;
+        }
+
+        // Proceed to Stripe Checkout
+        initiateStripeCheckout();
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+        button.disabled = false;
+        button.innerHTML = originalHtml;
     }
+}
 
-    // Get form data
-    const formData = new FormData(form);
+// Initialize Stripe Checkout
+async function initiateStripeCheckout() {
+    const button = document.getElementById('payment-button');
 
-    // Show confirmation
-    if (confirm('Proceed with payment of ₹{{ number_format($course->discount_rate ?: $course->rate, 2) }}?')) {
-        // Here you would integrate with your payment gateway
-        alert('Payment integration pending. This will redirect to payment gateway.');
+    try {
+        const response = await fetch('{{ route("stripe.create-checkout-session") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                course_id: {{ $course->id }}
+            })
+        });
 
-        // Example: Redirect to payment gateway or API call
-        // window.location.href = '/payment-gateway?amount={{ $course->discount_rate ?: $course->rate }}';
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            const text = await response.text();
+            console.error('Received non-JSON response:', text);
+            throw new Error('Server returned non-JSON response');
+        }
+
+        const data = await response.json();
+
+        if (data.success && data.checkout_url) {
+            // Redirect to Stripe Checkout
+            window.location.href = data.checkout_url;
+        } else {
+            alert(data.message || 'Failed to initiate checkout. Please try again.');
+            button.disabled = false;
+            button.innerHTML = '<i class="fas fa-lock"></i> Proceed to Payment';
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+        button.disabled = false;
+        button.innerHTML = '<i class="fas fa-lock"></i> Proceed to Payment';
     }
 }
 </script>

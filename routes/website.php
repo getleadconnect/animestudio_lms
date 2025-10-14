@@ -82,3 +82,16 @@ Route::controller(MockTestController::class)->middleware('auth:student')->group(
     Route::get('/test-result/{testResultId}', 'testResult')->name('student.test-result');
     Route::get('/get-latest-result-id/{questionPaperId}', 'getLatestResultId')->name('student.get-latest-result-id');
 });
+
+// Payment Routes
+use App\Http\Controllers\Website\PaymentController;
+
+Route::controller(PaymentController::class)->group(function() {
+    // Check authentication before payment
+    Route::post('/course/check-auth', 'checkAuthentication')->name('course.check-auth');
+
+    // Stripe Checkout
+    Route::post('/stripe/create-checkout-session', 'createCheckoutSession')->name('stripe.create-checkout-session');
+    Route::get('/stripe/success', 'paymentSuccess')->name('stripe.success');
+    Route::get('/stripe/cancel', 'paymentCancel')->name('stripe.cancel');
+});

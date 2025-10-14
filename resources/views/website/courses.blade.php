@@ -706,9 +706,9 @@
                                         <!-- Price Badge -->
                                         <div class="course-price-badge" style="font-size:16px;font-weight:600;">
                                             @if($course->discount_rate && $course->discount_rate < $course->rate)
-                                                PRICE: ₹{{ number_format($course->discount_rate) }}
+                                                PRICE: AED {{ number_format($course->discount_rate) }}
                                             @elseif($course->rate > 0)
-                                                PRICE: ₹{{ number_format($course->rate) }}
+                                                PRICE: AED {{ number_format($course->rate) }}
                                             @else
                                                 PRICE: FREE
                                             @endif
@@ -738,11 +738,11 @@
                                         <!-- Course Stats -->
                                      <div class="d-flex justify-content-between mb-2">
                         <span>Course Price:</span>
-                         <span><span class="text-decoration-line-through text-muted">₹{{number_format($course->rate)}}</span>&nbsp;&nbsp;₹{{ number_format($course->discount_rate) }}</span>
+                         <span><span class="text-decoration-line-through text-muted">AED {{number_format($course->rate)}}</span>&nbsp;&nbsp;AED {{ number_format($course->discount_rate) }}</span>
                     </div>
                                         <!-- Enroll Button -->
                                         <a href="{{ route('purchase-course', $course->id) }}" class="btn-enroll-now">
-                                            ENROLL NOW
+                                            BUY NOW
                                         </a>
                                     </div>
                                 </div>

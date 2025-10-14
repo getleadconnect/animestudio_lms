@@ -285,7 +285,6 @@
         border: 1px solid #d1d7dc;
         border-radius: 8px;
         overflow: hidden;
-        cursor: pointer;
         transition: all 0.3s;
         position: relative;
         min-width: 280px;
@@ -382,6 +381,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        margin-bottom: 12px;
     }
 
     .price-current {
@@ -394,6 +394,31 @@
         font-size: 14px;
         color: #6a6f73;
         text-decoration: line-through;
+    }
+
+    /* Buy Now Button */
+    .btn-buy-now {
+        display: block;
+        width: 100%;
+        padding: 10px 16px;
+        background: #FFA500;
+        color: white;
+        text-align: center;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-buy-now:hover {
+        background: #FF8C00;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
+        color: white;
     }
 
 
@@ -992,12 +1017,17 @@
                                 <!-- Price -->
                                 <div class="course-price-section">
                                     @if($course->discount_rate && $course->discount_rate < $course->rate)
-                                        <span class="price-current">₹{{ number_format($course->discount_rate) }}</span>
-                                        <span class="price-original">₹{{ number_format($course->rate) }}</span>
+                                        <span class="price-current">AED {{ number_format($course->discount_rate) }}</span>
+                                        <span class="price-original">AED {{ number_format($course->rate) }}</span>
                                     @else
-                                        <span class="price-current">₹{{ number_format($course->rate) }}</span>
+                                        <span class="price-current">AED {{ number_format($course->rate) }}</span>
                                     @endif
                                 </div>
+
+                                <!-- Buy Now Button -->
+                                <a href="{{ route('purchase-course', $course->course_id) }}" class="btn-buy-now">
+                                    <i class="fas fa-shopping-cart"></i> BUY NOW
+                                </a>
                             </div>
                         </div>
                         @endforeach
@@ -1265,11 +1295,14 @@
                         </div>
                         <div class="course-price-section">
                             ${course.discount_rate && course.discount_rate < course.rate ?
-                                `<span class="price-current">₹${Number(course.discount_rate).toLocaleString()}</span>
-                                 <span class="price-original">₹${Number(course.rate).toLocaleString()}</span>` :
-                                `<span class="price-current">₹${Number(course.rate).toLocaleString()}</span>`
+                                `<span class="price-current">AED ${Number(course.discount_rate).toLocaleString()}</span>
+                                 <span class="price-original">AED ${Number(course.rate).toLocaleString()}</span>` :
+                                `<span class="price-current">AED ${Number(course.rate).toLocaleString()}</span>`
                             }
                         </div>
+                        <a href="{{ url('/purchase-course') }}/${course.course_id}" class="btn-buy-now">
+                            <i class="fas fa-shopping-cart"></i> BUY NOW
+                        </a>
                     </div>
                 </div>
             `;
@@ -1279,14 +1312,6 @@
 
         // Reset scroll position
         coursesSlider.scrollLeft = 0;
-
-        // Add click handlers to cards
-        document.querySelectorAll('.modern-course-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const courseId = this.getAttribute('data-course-id');
-                window.location.href = `{{ url('/course-details') }}/${courseId}`;
-            });
-        });
     }
 
     // Slider navigation functions
@@ -1307,16 +1332,6 @@
             behavior: 'smooth'
         });
     }
-
-    // Add click handlers to initial course cards
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.modern-course-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const courseId = this.getAttribute('data-course-id');
-                window.location.href = `{{ url('/course-details') }}/${courseId}`;
-            });
-        });
-    });
 
     // Reviews Slider Navigation Functions with Smooth Scrolling
     function slideReviewsLeft() {

@@ -12,7 +12,7 @@ class Payment extends Model
 	protected $table='payments';
 	
 	protected $fillable = ['id','student_id','course_id','referral_code','referral_value',
-	'course_rate','net_amount','payment_id'];
+	'course_rate','net_amount','payment_id','status','added_by'];
 	 
     protected $hidden = [
 		'created_at',

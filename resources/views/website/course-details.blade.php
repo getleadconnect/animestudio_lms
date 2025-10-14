@@ -73,10 +73,12 @@
                         <li class="mb-2">
                             <strong>Price:</strong>
                             @if($course->discount_rate)
-                                <span class="text-decoration-line-through text-muted">₹{{ $course->rate }}</span>
-                                <span class="text-success fw-bold">₹{{ $course->discount_rate }}</span>
+                                @if($course->discount_rate!=$course->rate)
+                                <span class="text-decoration-line-through text-muted">AED {{ $course->rate }}</span>
+                                @endif
+                                <span class="text-success fw-bold">AED {{ $course->discount_rate }}</span>
                             @else
-                                ₹{{ $course->rate }}
+                                AED {{ $course->rate }}
                             @endif
                         </li>
                         <li class="mb-2">
@@ -84,9 +86,9 @@
                         </li>
                     </ul>
 
-                    <a href="{{ route('purchase-course', $course->id) }}" class="btn btn-success w-100">
+                    <button type="button" id="checkout-button" class="btn btn-success w-100" onclick="handlePurchase()">
                         <i class="fas fa-shopping-cart"></i> Complete Purchase
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -434,6 +436,90 @@ function loadChaptersBySubject(subjectId, subjectName, courseId) {
                 </div>
             `;
         });
+}
+
+// Handle Purchase Button Click with Authentication Check
+async function handlePurchase() {
+    const button = document.getElementById('checkout-button');
+    const originalHtml = button.innerHTML;
+
+    // Disable button and show loading
+    button.disabled = true;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Processing...';
+
+    try {
+        // Check if student is authenticated
+        const response = await fetch('{{ route("course.check-auth") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                course_id: {{ $course->id }}
+            })
+        });
+
+        const data = await response.json();
+
+        if (!data.authenticated) {
+            // Student not logged in - redirect to login with return URL
+            const returnUrl = encodeURIComponent(window.location.href);
+            window.location.href = `{{ route('student.login') }}?return_url=${returnUrl}&course_id={{ $course->id }}`;
+            return;
+        }
+
+        if (data.already_subscribed) {
+            alert('You have already purchased this course!');
+            button.disabled = false;
+            button.innerHTML = originalHtml;
+            return;
+        }
+
+        // Proceed to Stripe Checkout
+        initiateStripeCheckout();
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+        button.disabled = false;
+        button.innerHTML = originalHtml;
+    }
+}
+
+// Initialize Stripe Checkout
+async function initiateStripeCheckout() {
+    try {
+        const response = await fetch('{{ route("stripe.create-checkout-session") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                course_id: {{ $course->id }}
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.checkout_url) {
+            // Redirect to Stripe Checkout
+            window.location.href = data.checkout_url;
+        } else {
+            alert(data.message || 'Failed to initiate checkout. Please try again.');
+            const button = document.getElementById('checkout-button');
+            button.disabled = false;
+            button.innerHTML = '<i class="fas fa-shopping-cart"></i> Complete Purchase';
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+        const button = document.getElementById('checkout-button');
+        button.disabled = false;
+        button.innerHTML = '<i class="fas fa-shopping-cart"></i> Complete Purchase';
+    }
 }
 </script>
 
