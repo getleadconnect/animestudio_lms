@@ -62,6 +62,15 @@
         padding: 25px;
         margin-bottom: 30px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .filter-dropdown-wrapper {
+        flex: 1;
+        min-width: 250px;
     }
 
     .filter-section label {
@@ -85,6 +94,41 @@
         outline: none;
         border-color: #667eea;
         box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .tips-info-note {
+        background: linear-gradient(135deg, #fffbf0 0%, #fff9e6 100%);
+        border-left: 4px solid #ffc107;
+        padding: 15px 20px;
+        border-radius: 8px;
+        flex: 0 0 auto;
+        max-width: 350px;
+        min-width: 250px;
+    }
+
+    .tips-info-note .note-icon {
+        color: #ffc107;
+        font-size: 1.2rem;
+        margin-right: 10px;
+    }
+
+    .tips-info-note .note-text {
+        font-size: 0.9rem;
+        color: #666;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    @media (max-width: 768px) {
+        .filter-section {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .tips-info-note {
+            max-width: 100%;
+            width: 100%;
+        }
     }
 
     .tips-grid {
@@ -401,15 +445,24 @@
     </div>
 
     <div class="filter-section">
-        <label for="courseFilter">
-            <i class="fas fa-filter me-2"></i> Select Course
-        </label>
-        <select id="courseFilter" class="form-select">
-            <option value="">Select a course to view tips...</option>
-            @foreach($courses as $course)
-                <option value="{{ $course->id }}">{{ $course->course_name }}</option>
-            @endforeach
-        </select>
+        <div class="filter-dropdown-wrapper">
+            <label for="courseFilter">
+                <i class="fas fa-filter me-2"></i> Select Course
+            </label>
+            <select id="courseFilter" class="form-select">
+                <option value="">Select a course to view tips...</option>
+                @foreach($courses as $index => $course)
+                    <option value="{{ $course->id }}" {{ $index === 0 ? 'selected' : '' }}>{{ $course->course_name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="tips-info-note">
+            <p class="note-text">
+                <i class="fas fa-info-circle note-icon"></i>
+                <strong>Easy Tips:</strong> Quick learning resources to help you understand concepts faster and remember them better.
+            </p>
+        </div>
     </div>
 
     <div class="loading-spinner" id="loadingSpinner">
@@ -676,6 +729,16 @@
     document.getElementById('pdfModal').addEventListener('click', function(e) {
         if (e.target === this) {
             closePdfModal();
+        }
+    });
+
+    // Load tips for first course on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const courseFilter = document.getElementById('courseFilter');
+        const firstCourseId = courseFilter.value;
+
+        if (firstCourseId) {
+            loadTips(firstCourseId);
         }
     });
 </script>
