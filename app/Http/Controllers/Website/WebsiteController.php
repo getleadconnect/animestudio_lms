@@ -96,9 +96,11 @@ class WebsiteController extends Controller
         $totalVideos = Video::where('status', 1)->count() ?: 0;
         $totalPdfs = PdfFile::where('status', 1)->count() ?: 0;
 
-        return view('website.index', compact('categories', 'coursesByCategory', 'allCourses', 'banners',
+        /*return view('website.index', compact('categories', 'coursesByCategory', 'allCourses', 'banners',
                                             'successStories', 'totalStudents', 'totalCourses',
-                                            'totalVideos', 'totalPdfs', 'studentReviews'));
+                                            'totalVideos', 'totalPdfs', 'studentReviews'));*/
+        return view('website.index-new');
+
     }
 
     public function about()
@@ -202,7 +204,7 @@ class WebsiteController extends Controller
                           ->where('status', 1)
                           ->count();
 
-        return view('website.courses', compact('categories', 'coursesByCategory', 'totalCategories', 'totalCourses', 'totalStudents'));
+        return view('website.courses-new', compact('categories', 'coursesByCategory', 'totalCategories', 'totalCourses', 'totalStudents'));
     }
 
     public function courseDetails($id)

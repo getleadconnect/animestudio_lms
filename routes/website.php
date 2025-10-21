@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Website\WebsiteController;
 use App\Http\Controllers\Website\StudentAuthController;
 use App\Http\Controllers\Website\MockTestController;
+use App\Http\Controllers\Website\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +19,8 @@ use App\Http\Controllers\Website\MockTestController;
 // Public Website Pages are defined in web.php to avoid conflicts
 
 // Test route without auth
-Route::get('/test-simple', function() {
-    return 'Simple test works - no auth!';
+Route::get('/', function() {
+    return view('website.student.login');
 });
 
 // Test route with auth
@@ -84,7 +85,7 @@ Route::controller(MockTestController::class)->middleware('auth:student')->group(
 });
 
 // Payment Routes
-use App\Http\Controllers\Website\PaymentController;
+
 
 Route::controller(PaymentController::class)->group(function() {
     // Check authentication before payment

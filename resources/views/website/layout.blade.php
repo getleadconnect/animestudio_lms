@@ -135,7 +135,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
+            <a class="navbar-brand" href="https://animestudio.io">
                 <img src="{{url('assets/animestudio-logo-white.png')}}" style="width:60px;height:60px;padding:5px;background:#949292;">
                 AnimeStudio
             </a>
@@ -143,19 +143,32 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/') }}">Home</a>
+                <ul class="navbar-nav ms-auto" >
+
+                   <li class="nav-item">
+                        <a class="nav-link" href="https://animestudio.io" style="font-size:18px;">Home</a>
                     </li>
-                    <li class="nav-item">
+
+                    {{--<li class="nav-item">
                         <a class="nav-link" href="{{ url('/about') }}">About</a>
-                    </li>
+                    </li> --}}
+                    
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/courses') }}">Courses</a>
+                        <a class="nav-link" href="{{ url('/courses') }}" style="font-size:18px;">Courses</a>
                     </li>
-                    <li class="nav-item">
+
+                    {{--<li class="nav-item">
                         <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
                     </li>
+                     --}}
+
+
+                     {{--<li class="nav-item dropdown ms-2">
+                            <a class="btn btn-primary-custom " href="{{ url('/courses') }}" role="button" aria-expanded="false">
+                                <i class="fas fa-book"></i> &nbsp;&nbsp;Our Courses
+                            </a>
+                        </li> --}}
+
                     @auth('student')
                         <li class="nav-item dropdown ms-2">
                             <a class="btn btn-primary-custom dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -221,12 +234,20 @@
                 </div>
                 <div class="col-md-4 mb-4 mb-md-0">
                     <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
+                    {{--<ul class="list-unstyled">
                         <li><a href="{{ url('/about') }}"><i class="fas fa-chevron-right me-2"></i> About Us</a></li>
                         <li><a href="{{ url('/courses') }}"><i class="fas fa-chevron-right me-2"></i> Our Courses</a></li>
                         <li><a href="{{ url('/contact') }}"><i class="fas fa-chevron-right me-2"></i> Contact</a></li>
                         <li><a href="{{ url('/login') }}"><i class="fas fa-chevron-right me-2"></i> Login</a></li>
+                    </ul> --}}
+
+                    <ul class="list-unstyled">
+                        <li><a href="https://animestudio.io"><i class="fas fa-chevron-right me-2"></i> About Us</a></li>
+                        <li><a href="https://animestudio.io"><i class="fas fa-chevron-right me-2"></i> Our Courses</a></li>
+                        <li><a href="https://animestudio.io"><i class="fas fa-chevron-right me-2"></i> Contact</a></li>
+                        <li><a href="https://animestudio.io"><i class="fas fa-chevron-right me-2"></i> Login</a></li>
                     </ul>
+
                 </div>
                 <div class="col-md-4 mb-4 mb-md-0">
                     <h5>Contact Info</h5>
