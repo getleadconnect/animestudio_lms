@@ -155,17 +155,17 @@
 
 						<div class="col-lg-3 col-xl-3 col-xxl-3">
 						<label>IOS-Rate</label>
-						<input class="form-control mb-3" type="text" placeholder="IOS rate"  name="ios_rate_edit" value="{{$crs->ios_rate}}" required>
+						<input class="form-control mb-3" type="text" placeholder="IOS rate"  name="ios_rate_edit" value="{{$crs->ios_rate}}" >
 						</div>
 						
 						<div class="col-lg-5 col-xl-5 col-xxl-5">
 						<label>App Product Id</label>
-						<input class="form-control mb-3" type="text" placeholder="App store product id" name="app_store_id_edit" value="{{$crs->app_store_product_id}}" required>
+						<input class="form-control mb-3" type="text" placeholder="App store product id" name="app_store_id_edit" value="{{$crs->app_store_product_id}}" >
 						</div>
 						
 						<div class="col-lg-4 col-xl-4 col-xxl-4">
 						<label>Subscription Type</label>
-						<select class="form-control mb-3"  name="subscription_type_edit" required>
+						<select class="form-control mb-3"  name="subscription_type_edit" >
 						<option value="">Select Type</option>
 						<option value="Subscription" @if($crs->subscription_type=="Subscription"){{__('selected')}} @endif>Subscription</option>	
 						<option value="Consumable"  @if($crs->subscription_type=="Consumable"){{__('selected')}} @endif>Consumable</option>

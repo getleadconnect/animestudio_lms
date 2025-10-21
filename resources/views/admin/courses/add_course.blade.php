@@ -121,7 +121,7 @@
 						
 						<div class="col-lg-4 col-xl-4 col-xxl-4">
 						<label>Course details Video</label>
-						<input type="file" class="form-control mb-3" onchange="fileValidation3()" placeholder="select file" id="video_file"  name="video_file" required>
+						<input type="file" class="form-control mb-3" onchange="fileValidation3()" placeholder="select file" id="video_file"  name="video_file" >
 						</div>
 						
 						<div class="col-lg-2 col-xl-2 col-xxl-2">
