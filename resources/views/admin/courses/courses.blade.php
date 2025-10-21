@@ -159,7 +159,7 @@ var table = $('#datatable').DataTable({
 		
 		ajax:
 		{
-			url:"view-courses",
+			url:"{{url('view-courses')}}",
 			data: function (data) 
 		    {
                data.search = $('input[type="search"]').val();
@@ -231,7 +231,7 @@ $("#datatable tbody").on('click','.btnDel',function()
 		var id=$(this).attr('id');
 		  jQuery.ajax({
 			type: "get",
-			url: "delete-course"+"/"+id,
+			url: "{{url('delete-course')}}"+"/"+id,
 			dataType: 'json',
 			//data: {vid: vid},
 			success: function(res)
@@ -270,7 +270,7 @@ $("#datatable tbody").on('click','.btnAct',function()
 		var id=$(this).attr('id');
 		  jQuery.ajax({
 			type: "get",
-			url: "act-deact-course/1"+"/"+id,
+			url: "{{url('act-deact-course/1')}}"+"/"+id,
 			dataType: 'json',
 			//data: {vid: vid},
 			success: function(res)
@@ -307,7 +307,7 @@ $("#datatable tbody").on('click','.btnDeact',function()
 		var id=$(this).attr('id');
 		  jQuery.ajax({
 			type: "get",
-			url: "act-deact-course/2"+"/"+id,
+			url: "url('act-deact-course/2')}}"+"/"+id,
 			dataType: 'json',
 			//data: {vid: vid},
 			success: function(res)

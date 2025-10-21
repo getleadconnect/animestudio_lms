@@ -271,7 +271,6 @@ $("#course_id").change(function()
 });
 
 
-
 $("#subject_id").change(function()
 {
 	var id=$(this).val();
