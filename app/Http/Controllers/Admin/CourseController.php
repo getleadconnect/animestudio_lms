@@ -55,7 +55,7 @@ class CourseController extends Controller
 			 'discount_rate'=>'required',
 			 'course_icon_wide'=>'required',
 			 'course_icon_square'=>'required',
-			 'video_file'=>'required',
+			 //'video_file'=>'required',
 			 'description'=>'required',
 			 'course_details'=>'required',
 			 'premium'=>'required'
