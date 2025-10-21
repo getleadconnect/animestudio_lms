@@ -145,7 +145,7 @@ class VideoController extends Controller
 		}
 		
 		return redirect('add-videos');*/
-		
+
   }
 
 
