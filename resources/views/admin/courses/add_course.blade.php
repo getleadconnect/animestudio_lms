@@ -255,7 +255,7 @@ else if(mes[0]=="danger")
 
 //---------------------------------------------------------------------------
 
-/*$(function() 
+$(function() 
  {
 	var bar = $('.bar');
 	var percent = $('.percent');
@@ -277,7 +277,7 @@ else if(mes[0]=="danger")
 		}
 	  });
  });
-*/
+
 
  $('#details').summernote({
 		  dialogsInBody: true,
