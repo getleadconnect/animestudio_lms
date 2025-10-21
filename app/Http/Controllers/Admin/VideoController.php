@@ -101,18 +101,16 @@ class VideoController extends Controller
 			return back()->withErrors($validate)->withInput();
         }
 
-		try
-		{
+		//try
+		//{
 			
 			$usr_id=Auth::guard('admin')->user()->id;
 			//$cid=Auth::guard('admin')->user()->center_id;
 
 			$fname2="";
-			
-			
+						
 			if($request->file('video_file'))
 			{ 
-				
 				$fname2=Storage::disk('spaces')->putFile("video_files",$request->file('video_file'), 'public');
 				$fname2=str_replace("video_files/","",$fname2);
 			}
@@ -139,14 +137,15 @@ class VideoController extends Controller
 			{
 				Session::flash('message', 'danger#Some details are missing. try again');
 			}
-		}
+		/*}
 		catch(\Exception $e)
 		{
 			\Log::info($e->getMessage());
 			Session::flash('message', 'danger#Something wrong, Try again.');
 		}
 		
-		return redirect('add-videos');
+		return redirect('add-videos');*/
+		
   }
 
 
