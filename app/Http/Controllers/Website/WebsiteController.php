@@ -96,10 +96,9 @@ class WebsiteController extends Controller
         $totalVideos = Video::where('status', 1)->count() ?: 0;
         $totalPdfs = PdfFile::where('status', 1)->count() ?: 0;
 
-        /*return view('website.index', compact('categories', 'coursesByCategory', 'allCourses', 'banners',
+        return view('website.index', compact('categories', 'coursesByCategory', 'allCourses', 'banners',
                                             'successStories', 'totalStudents', 'totalCourses',
-                                            'totalVideos', 'totalPdfs', 'studentReviews'));*/
-        return view('website.index-new');
+                                            'totalVideos', 'totalPdfs', 'studentReviews'));
 
     }
 
