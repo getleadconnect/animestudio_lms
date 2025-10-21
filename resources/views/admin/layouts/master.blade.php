@@ -49,7 +49,9 @@
           <div class="mobile-toggle-icon fs-3 d-flex d-lg-none">
               <i class="bi bi-list"></i>
             </div>
-			<h4>Administration</h4>
+			      
+            <h4>Administration</h4>
+
             <!--<form class="searchbar">
                 <div class="position-absolute top-50 translate-middle-y search-icon ms-3"><i class="bi bi-search"></i></div>
                 <input class="form-control" type="text" placeholder="Type here to search">
@@ -122,7 +124,6 @@
         </footer>
         <!--end footer-->
 
-
 			<div class="modal fade" id="CPassModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-sm">
 					<div class="modal-content">
@@ -170,7 +171,6 @@
   </div>
   
   <!--end wrapper-->
-
 
   <!-- Bootstrap bundle JS -->
   <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
