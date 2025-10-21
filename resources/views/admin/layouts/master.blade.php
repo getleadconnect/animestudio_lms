@@ -117,7 +117,7 @@
        <!--start footer-->
        <footer class="footer">
         <div class="footer-text">
-           Copyright ©Aim, Balussery 2024. All right reserved.
+           Copyright © Animestudio, 2025. All right reserved.
         </div>
         </footer>
         <!--end footer-->

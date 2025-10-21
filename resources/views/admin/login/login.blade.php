@@ -17,7 +17,7 @@
   <!-- loader-->
 	<link href="assets/css/pace.min.css" rel="stylesheet" />
 
-  <title>AIM - Balussery</title>
+  <title>Animestudio</title>
 </head>
 
 <body>
