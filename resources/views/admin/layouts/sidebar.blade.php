@@ -160,7 +160,7 @@
 				
 				<li> <a href="{{url('add-question')}}"><i class="bi bi-circle"></i>Add Image/Text Question</a></li>
 				
-				<li> <a href="{{url('pdf-questions')}}"><i class="bi bi-circle"></i>PDF Questions</a> </li>
+				<!--<li> <a href="{{url('pdf-questions')}}"><i class="bi bi-circle"></i>PDF Questions</a> </li> --> <!-- temporarily disabled -->
 				
 				<li> <a href="{{url('view-questions')}}"><i class="bi bi-circle"></i>View Questions</a> </li>
                 

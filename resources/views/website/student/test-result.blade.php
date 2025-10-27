@@ -144,6 +144,23 @@
     .answer-option.user-selected {
         font-weight: bold;
     }
+
+    .question-image-container {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border: 2px solid #e0e0e0;
+    }
+
+    .question-image-container img {
+        border: 1px solid #dee2e6;
+        transition: transform 0.3s ease;
+    }
+
+    .question-image-container img:hover {
+        transform: scale(1.02);
+        cursor: zoom-in;
+    }
 </style>
 @endpush
 
@@ -333,7 +350,18 @@
                     @endif
                 </div>
 
-                <p class="mb-3"><strong>{{ $result->question }}</strong></p>
+                @if($result->question_type == 1)
+                    <!-- Image Question -->
+                    <div class="question-image-container text-center mb-3">
+                        <img src="{{ config('constants.image_question') . $result->question }}"
+                             alt="Question {{ $index + 1 }}"
+                             class="img-fluid rounded shadow-sm"
+                             style="max-width: 100%; max-height: 400px; object-fit: contain;">
+                    </div>
+                @else
+                    <!-- Text Question -->
+                    <p class="mb-3"><strong>{{ $result->question }}</strong></p>
+                @endif
 
                 <div class="options">
                     @for($i = 1; $i <= 4; $i++)

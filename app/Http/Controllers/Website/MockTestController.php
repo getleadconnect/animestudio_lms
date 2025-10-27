@@ -245,7 +245,8 @@ class MockTestController extends Controller
             $detailedResults = DB::table('test_all_results')
                               ->join('questions', 'test_all_results.question_id', '=', 'questions.id')
                               ->select('test_all_results.*', 'questions.question', 'questions.answer1',
-                                      'questions.answer2', 'questions.answer3', 'questions.answer4')
+                                      'questions.answer2', 'questions.answer3', 'questions.answer4',
+                                      'questions.question_type')
                               ->where('test_all_results.student_id', $user->student_id)
                               ->where('test_all_results.question_paper_id', $testResult->question_paper_id)
                               ->orderBy('questions.id', 'ASC')
