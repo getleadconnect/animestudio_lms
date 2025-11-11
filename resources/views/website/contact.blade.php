@@ -286,8 +286,9 @@
                     </div>
                     <h3 class="contact-info-title">Our Location</h3>
                     <p class="contact-info-text">
-                        AnimeStudio Learning Center<br>
-                        Balussery, Kerala, India
+                        1018, Jln Sultan Ismail, Bandar Wawasan,<br>
+                        50250 Kuala Lumpur, Wilayah Persekutuan<br>
+                        Kuala Lumpur, Malaysia
                     </p>
                 </div>
             </div>
@@ -299,8 +300,7 @@
                     </div>
                     <h3 class="contact-info-title">Phone Number</h3>
                     <p class="contact-info-text">
-                        <a href="tel:+919876543210">+91 98765 43210</a><br>
-                        <a href="tel:+919876543211">+91 98765 43211</a>
+                        <a href="tel:+919876543210">(+60) 11 3706 5047</a><br>
                     </p>
                 </div>
             </div>
@@ -312,8 +312,7 @@
                     </div>
                     <h3 class="contact-info-title">Email Address</h3>
                     <p class="contact-info-text">
-                        <a href="mailto:info@aimlearning.com">info@aimlearning.com</a><br>
-                        <a href="mailto:support@aimlearning.com">support@aimlearning.com</a>
+                        <a href="mailto:info@aimlearning.com">support@animestudio.io</a>
                     </p>
                 </div>
             </div>
@@ -431,6 +430,8 @@
 @endsection
 
 @push('scripts')
+
+<script src="{{asset('assets/js/jquery.min.js')}}"></script>
 <script>
     // Form submission handling
     document.getElementById('contactForm')?.addEventListener('submit', function(e) {
@@ -438,5 +439,9 @@
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Sending...';
     });
+
+setTimeout(function(){ $('.alert-success').hide();}, 3000);
+setTimeout(function(){ $('.alert-error').hide();}, 3000);
+
 </script>
 @endpush

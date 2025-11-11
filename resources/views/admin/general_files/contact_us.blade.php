@@ -76,11 +76,11 @@
                       <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
-                  </li> -->
+                  </li> 
 				  
                   <li class="nav-item">
                     <a class="nav-link" href="javascript:;"  style="color:blue;"><u>Contact Us</u></a>
-                  </li>
+                  </li> -->
                 </ul>
 
               </div>
@@ -111,14 +111,15 @@
 					<div class="col-1"></div>
 					<div class="col-lg-5 col-xl-5 col-xxl-5">
 					<h4> <i class="lni lni-map-marker"></i> Address</h4>
-					<p class="c-para">Aim-PSC</p>
-					<p class="c-para">Balussery</p>
-					<p class="c-para">Kozhikode(dt), Kerala, India</p>
+					1018, Jln Sultan Ismail, Bandar Wawasan,<br>
+          50250 Kuala Lumpur, Wilayah Persekutuan<br>
+          Kuala Lumpur, Malaysia
+
 					</div>
 					
 					<div class="col-lg-5 col-xl-5 col-xxl-5">
-					<p style="display-flex;align-items:center;"><i class="lni lni-mobile fs-5" ></i> +91 1234567890</p>
-					<p style="display-flex;align-items:center;" > <i class="lni lni-envelope fs-5" ></i> aimappbalussery@gmail.com</p>
+					<p style="display-flex;align-items:center;"><i class="lni lni-mobile fs-5" ></i>(+60) 11 3706 5047</p>
+					<p style="display-flex;align-items:center;" > <i class="lni lni-envelope fs-5" ></i> support@animestudio.io</p>
 					</div>
 					<div class="col-1"></div>
 

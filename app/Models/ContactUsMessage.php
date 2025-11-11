@@ -11,7 +11,7 @@ class ContactUsMessage extends Model
 		
 	protected $table='contact_us_messages';
 	
-	protected $fillable = ['id','name','mobile','email','message'];
+	protected $fillable = ['id','name','mobile','email','subject','message'];
 	 
     protected $hidden = [
 		'created_at',

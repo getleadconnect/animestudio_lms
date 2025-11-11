@@ -95,11 +95,11 @@
                       <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
-                  </li> -->
+                  </li> 
 
                   <li class="nav-item">
                     <a class="nav-link" href="{{url('contact')}}">Contact Us</a>
-                  </li>
+                  </li>-->
                 </ul>
 
               </div>
@@ -204,7 +204,7 @@
        <!--end page main-->
 
        <footer class="bg-white border-top p-3 text-center fixed-bottom">
-        <p class="mb-0">Copyright © Aim-Balussery,2021. All right reserved.</p>
+        <p class="mb-0">Copyright © AnimeStudio, 2025. All right reserved.</p>
       </footer>
 
   </div>

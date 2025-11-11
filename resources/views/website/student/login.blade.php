@@ -218,17 +218,17 @@
                                 @enderror
                             </div>
 
-                            <div class="mb-3 d-flex justify-content-between align-items-center">
+                           <div class="mb-3 d-flex justify-content-between align-items-center">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="remember" name="remember">
                                     <label class="form-check-label" for="remember">
                                         Remember me
                                     </label>
                                 </div>
-                                <a href="{{ route('student.forgot-password') }}" class="forgot-link">
+                               {{--<!-- <a href="{{ route('student.forgot-password') }}" class="forgot-link">
                                     Forgot Password?
-                                </a>
-                            </div>
+                                </a> -->--}}
+                            </div> 
 
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-login">

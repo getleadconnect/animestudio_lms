@@ -119,7 +119,7 @@
        <!--start footer-->
        <footer class="footer">
         <div class="footer-text">
-           Copyright © Animestudio, 2025. All right reserved.
+           Copyright © AnimeStudio, 2025. All right reserved.
         </div>
         </footer>
         <!--end footer-->

@@ -252,9 +252,13 @@
                 <div class="col-md-4 mb-4 mb-md-0">
                     <h5>Contact Info</h5>
                     <ul class="list-unstyled contact-info">
-                        <li><i class="fas fa-map-marker-alt"></i> <span>Your Address Here</span></li>
-                        <li><i class="fas fa-phone"></i> <span>+91 1234567890</span></li>
-                        <li><i class="fas fa-envelope"></i> <span>info@aimlearning.com</span></li>
+                        <li><i class="fas fa-map-marker-alt"></i> <span>
+                        1018, Jln Sultan Ismail, Bandar Wawasan,<br>
+                        50250 Kuala Lumpur, Wilayah Persekutuan<br>
+                        Kuala Lumpur, Malaysia    
+                        </span></li>
+                        <li><i class="fas fa-phone"></i> <span>(+60) 11 3706 5047</span></li>
+                        <li><i class="fas fa-envelope"></i> <span>support@animestudio.io</span></li>
                     </ul>
                 </div>
             </div>
