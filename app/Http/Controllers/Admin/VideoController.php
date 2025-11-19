@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
+use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
+use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
+use Pion\Laravel\ChunkUpload\Exceptions\UploadFailedException;
+
+
 use App\Common\Common;
 
 use App\Models\Center;
@@ -64,8 +69,7 @@ class VideoController extends Controller
 	$opt=Common::getChaptersBySubjectId($subject_id);
 	return $opt;
  }
- 
- 
+  
 
   public function view_comments()
   {
@@ -80,16 +84,50 @@ class VideoController extends Controller
   }	
   
   	
-  public function store(Request $request)
+
+//using large file upload DropZone library and pion/chunk_upload  in laravel
+
+public function videoChunkUpload(Request $request)   
+{
+    $receiver = new FileReceiver("file", $request, HandlerFactory::classFromRequest($request));
+
+    if (!$receiver->isUploaded()) {
+        return response()->json(['error' => 'File not uploaded'], 400);
+    }
+
+    $fileReceived = $receiver->receive();
+
+    if ($fileReceived->isFinished()) {
+        $file = $fileReceived->getFile();
+
+        $fileName = time() . "_" . $file->getClientOriginalName();
+        $path = Storage::disk("public")->putFileAs("uploads", $file, $fileName);
+
+        @unlink($file->getPathname());
+
+        return response()->json([
+            "status" => "completed",
+            "path" => $path
+        ]);
+    }
+
+    return response()->json([
+        "status" => "chunk_uploaded",
+        "progress" => $fileReceived->handler()->getPercentageDone()
+    ]);
+}
+
+
+ public function store(Request $request)
   {
 	  $validate = Validator::make(request()->all(),[
              'chapter_id'=>'required',
 			 'subject_id'=>'required',
 			 'chapter_id'=>'required',
 			 'title'=>'required',
-			 'video_file'=>'required',
+			 //'video_file'=>'required',
 			 'description'=>'required',
-			 'explanation'=>'required',
+			 //'explanation'=>'required',
 			 'duration'=>'required',
 			 'teacher_name'=>'required',
         ]);
@@ -105,22 +143,14 @@ class VideoController extends Controller
 		{
 			
 			$usr_id=Auth::guard('admin')->user()->id;
-			//$cid=Auth::guard('admin')->user()->center_id;
 
-			$fname2="";
-						
-			if($request->file('video_file'))
-			{ 
-				$fname2=Storage::disk('spaces')->putFile("video_files",$request->file('video_file'), 'public');
-				$fname2=str_replace("video_files/","",$fname2);
-			}
-			
 			$result=Video::create([
 			 'course_id'=>$request->course_id,
 			 'subject_id'=>$request->subject_id,
 			 'chapter_id'=>$request->chapter_id,
 			 'title'=>$request->title,
-			 'video_file'=>$fname2,
+			 //'video_file'=>$fname2,
+			 'video_file'=>$request->uploaded_file_path,
 			 'duration'=>$request->duration,
 			 'teacher_name'=>$request->teacher_name,
 			 'description'=>$request->description,
@@ -145,8 +175,8 @@ class VideoController extends Controller
 		}
 		
 		return redirect('add-videos');
-
   }
+		
 
 
 public function view_data(Request $request)

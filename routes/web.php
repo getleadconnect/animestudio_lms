@@ -357,6 +357,8 @@ Route::controller(VideoController::class)->group(function() {
 	Route::get('/view-comments', 'view_comments')->name('view-comments');
 	Route::get('/view-comment-data', 'view_comment_data')->name('view-comment-data');
 	Route::get('/delete-video-comment/{id}', 'destroy_comment')->name('delete-video-comment');
+
+	Route::post('/video-chunk-upload', 'videoChunkUpload')->name('chunk.upload');  //Dropzone Upload
 	
 });
 

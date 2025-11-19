@@ -10,12 +10,25 @@
 {
 	content:none;
 }
+
+.note-editable
+{
+	height:200px !important;
+}
+.required
+{
+	color:red;
+}
 </style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
 
 <!-- for message -------------->
 		<input type="hidden" id="view_message" value="{{ Session::get('message') }}">
 	<!-- for message end-------------->	
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
               <div class="breadcrumb-title pe-3">Add Videos</div>
@@ -50,111 +63,107 @@
 				  </div>
                 </div>
                 <div class="card-body">
-                   <div class="row">
-                     
-                     <div class="col-12 col-lg-12 d-flex">
+                   <div class="row" >
+                     <div class="col-12 col-lg-12">
                       <div class="card  shadow-none w-100">
-					  
-					  
-					  <form method="POST" id="addVideo" action="{{url('save-video')}}" enctype="multipart/form-data">
-						@csrf
-					  
+
+					    <form method="POST" id="addVideo" action="{{url('save-video')}}" enctype="multipart/form-data" >
+							@csrf
+
+					 	<div class="row" >
+				<div class="col-12 col-lg-6 col-xl-6 col-xxl-6" >
+
+						<input type="hidden" name="uploaded_file_path" id="uploaded_file_path">
+
 						<div class="form-group">
-						<div class="row">
-						<div class="col-lg-4 col-xl-4 col-xxl-4">
-						<label>Course</label>
-						<select class="form-control mb-3" id="course_id" name="course_id" placeholder="Select Course" required>
-						<option value="">Select</option>
-						@foreach($crs as $r)
-						<option value="{{$r->id}}">{{$r->course_name}}</option>
-						@endforeach
-						
-						</select>
+							<label>Course <span class="required">*</span></label>
+							<select class="form-control mb-3" id="course_id" name="course_id" placeholder="Select Course" required>
+							<option value="">Select</option>
+							@foreach($crs as $r)
+							<option value="{{$r->id}}">{{$r->course_name}}</option>
+							@endforeach
+							</select>
 						</div>
 						
 						
-						<div class="col-lg-4 col-xl-4 col-xxl-4">
-						<label>Subjects</label>
-						<select class="form-control mb-3" id="subject_id" name="subject_id" placeholder="Select Subjects" required>
-						<option value="">Select</option>
-						</select>
+						<div class="form-group">
+							<label>Subjects <span class="required">*</span></label>
+							<select class="form-control mb-3" id="subject_id" name="subject_id" placeholder="Select Subjects" required>
+							<option value="">Select</option>
+							</select>
 						</div>
 												
-						<div class="col-lg-4 col-xl-4 col-xxl-4">
-						<label>Topics</label>
-						<select class="form-control mb-3" id="chapter_id" name="chapter_id" placeholder="Select Topic" required>
-						<option value="">Select</option>
-						</select>
+						<div class="form-group">
+							<label>Topics <span class="required">*</span></label>
+							<select class="form-control mb-3" id="chapter_id" name="chapter_id" placeholder="Select Topic" required>
+							<option value="">Select</option>
+							</select>
 						</div>
-						</div>
-						</div>
+			
 						
 						<div class="form-group">
-						<div class="row">
-						<div class="col-lg-6 col-xl-6 col-xxl-6">
-						<label>Video Title</label>
-						<input class="form-control mb-3" type="text" name="title"  placeholder="Title" required>
-						</div>
-																		
-						<div class="col-lg-6 col-xl-6 col-xxl-6">
-						<label>Video File(.mp4 Only)</label>
-						<input class="form-control mb-3" type="file" onchange="fileValidation2()" id="video_file" name="video_file" placeholder="Video file" required>
+							<label>Video Title <span class="required">*</span></label>
+							<input class="form-control mb-3" type="text" name="title" id="video_title"  placeholder="Title" required>
 						</div>
 
+						<div class="form-group mt-3" >
+						<div class="row">
+							<div class="col-12 col-lg-6 col-xl-6">
+								<label>Duration <span class="required">*</span></label>
+								<input class="form-control" type="text"  id="duration" name="duration" placeholder="2:30" required>
+								<label>Eg:2:30:00</label>
+							</div>
+						
+							<div class="col-12 col-lg-6 col-xl-6">
+								<label>Teacher Name <span class="required">*</span></label>
+								<input class="form-control mb-3" type="text"  id="teacher_name" name="teacher_name" placeholder="Teacher name" required>
+							</div>
 						</div>
 						</div>
 
+						
+						<div class="form-group mt-3">
+							<label>Description <span class="required">*</span></label>
+							<textarea class="form-control mb-3" id="description"  name="description" placeholder="Description" style="text-align:left;height:100px;" required></textarea>
+						</div>
+						
+				</div>
+
+				<div class="col-12 col-lg-6 col-xl-6 col-xxl-6">
+
 						<div class="form-group">
-						<div class="row">
-						<div class="col-lg-2 col-xl-2 col-xxl-2">
-						<label>Duration</label>
-						<input class="form-control" type="text"  id="duration" name="duration" placeholder="2:30" required>
-						<label>Eg:2:30:00</label>
+							<label>Explanation</label>
+							<textarea id="details" class="form-control mb-3" name="explanation"  placeholder="Explanation" style="text-align:left;"></textarea>
 						</div>
-						
-						<div class="col-lg-4 col-xl-4 col-xxl-4">
-						<label>Teacher Name</label>
-						<input class="form-control mb-3" type="text"  name="teacher_name" placeholder="Teacher name" required>
-						</div>
-						
-						<div class="col-lg-6 col-xl-6 col-xxl-6">
-						<label>Description</label>
-						<textarea class="form-control mb-3" name="description" placeholder="Description" style="text-align:left;"></textarea>
-						</div>
-						
-						</div>
-						</div>
-						
-						<div class="form-group">
-						<div class="row">
-						<div class="col-lg-12 col-xl-12 col-xxl-12">
-						<label>Explanation</label>
-						<textarea id="details" class="form-control mb-3" name="explanation"  placeholder="Explanation" style="text-align:left;"></textarea>
-						</div>
-						
-						</div>
+
+						<div class="form-group mt-3">
+							<label>Video File(.mp4 Only) <span class="required">*</span></label>
+							<!--<input class="form-control mb-3" type="file" onchange="fileValidation2()" id="video_file" name="video_file" placeholder="Video file" required> -->
+							<div id="fileUploader" class="dropzone"></div>
+
 						</div>
 
 						<div class="form-group mt-2">
-						<div class="row">
-						
-						<div class="col-lg-8 col-xl-8 col-xxl-8 text-right">
-							<div class="form-group row" style="padding-left:50px;padding-right:50px;">
-								<div class="progress">
-									<div class="bar"></div >
-									<div class="percent">0%</div >
-								</div>
-								<label id="lbl1" style="color:red;font-size:12px;width:100%;text-align:center;">&nbsp;</label>
+						<div style="margin-top:20px;">
+							<div id="progressText">0%</div>
+							<div id="progressWrapper" style="width:300px; height:20px; background:#eee;">
+								<div id="progressBar" style="height:20px; width:0%; background:#28a745;"></div>
 							</div>
 						</div>
-						
-						<div class="col-lg-4 col-xl-4 col-xxl-4 text-right">
-							<button type="submit" id="btnSubmit" class="btn btn-primary">Save changes</button>
 						</div>
-						</div>
-						</div>
-						</form>
+				
 
+						<div class="form-group mt-3">
+							<button type="button" id="btnSubmit" class="btn btn-primary">Save changes</button>
+						</div>
+
+						</div><!-- end column -->
+
+						</div>
+						</div>
+
+						</form>
+									
                        <!-- </div>-->
                       </div> 
                     </div>
@@ -184,8 +193,121 @@
 			</div>
 
 @push('scripts')
-<script>
 
+<script>
+Dropzone.autoDiscover = false;
+
+let uploadedFilePath = null;
+
+let dz = new Dropzone("#fileUploader", {
+    url: "{{ route('chunk.upload') }}",
+    paramName: "file",
+    maxFilesize: 5000, // 5GB
+    chunking: true,
+    forceChunking: true,
+    chunkSize: 2 * 1024 * 1024, // 2MB
+    retryChunks: true,
+    retryChunksLimit: 3,
+    parallelChunkUploads: false,
+    addRemoveLinks: true,
+	autoProcessQueue: false, // Important: prevent auto upload
+	acceptedFiles: ".mp4,video/mp4,application/mp4,application/octet-stream",
+	
+	headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    },
+
+    init: function () {
+
+		let myDropzone = this;
+
+        // Upload button triggers processing
+        document.getElementById("btnSubmit").addEventListener("click", function () {
+
+			let cid=$("#course_id").val();
+			let sid=$("#subject_id").val();
+			let chid=$("#chapter_id").val();
+			let vtitle=$("#video_title").val();
+			let desc=$("#description").val();
+			let dur=$("#duration").val();
+			let tna=$("#teacher_name").val();
+			
+			if(cid!="" && sid!="" && chid!="" && vtitle!="" && dur!="" && tna!="" && desc!="")
+			{
+				if (myDropzone.getQueuedFiles().length === 0) {
+					alert("Please select a file for upload.");
+					return;
+				}
+				myDropzone.processQueue(); // start upload
+			}
+			else
+			{
+				alert("Video details missing, Input data correctly.!");
+			}
+        });
+
+		this.on("uploadprogress", function(file, progress, bytesSent) {
+            let percent = Math.round(progress);
+            console.log("File progress: " + percent + "%");
+
+            document.getElementById("progressText").innerText = percent + "%";
+            document.getElementById("progressBar").style.width = percent + "%";
+        });
+
+
+		this.on('canceled',function(file,response){
+			myDropzone.removeAllFiles(true); // cancel and remove files
+            uploadedFilePath = null;
+            document.getElementById("uploaded_file_path").value = '';
+            document.getElementById("progressBar").style.width = '0%';
+            document.getElementById("progressText").innerText = '0%';
+		});
+
+        this.on("success", function (file, response) {
+
+            // This is the final response
+            if (response.path) {
+                uploadedFilePath = response.path;
+                document.getElementById("uploaded_file_path").value = response.path;
+
+                console.log("Final file path:", response.path);
+
+                document.getElementById("progressText").innerText = "Completed";
+                document.getElementById("progressBar").style.width = "100%";
+				uploadedFilePath = response.path;
+            }
+
+            console.log("File uploaded:", response);
+			if (uploadedFilePath) {
+				alert("File uploaded");
+				document.getElementById("addVideo").submit();
+			}
+        });
+    }
+});
+
+$(document).on(click,'.dz-remove',function()
+{
+	alert("ok");
+	document.getElementById("progressText").innerText = "";
+	document.getElementById("progressBar").style.width = "0%";
+});
+
+document.getElementById("btnSubmit").addEventListener("click", function () {
+
+    if (dz.getUploadingFiles().length > 0) {
+        alert("Please wait — file is still uploading.");
+    }
+
+    if (!uploadedFilePath) {
+        alert("Please upload a file first.");
+    }
+	
+});
+</script>
+
+
+<script>
 
 var mes=$('#view_message').val().split('#');
 
@@ -200,7 +322,7 @@ else if(mes[0]=="danger")
 
 //---------------------------------------------------------------------------
 
-
+/*
 $(function() 
  {
 	
@@ -224,7 +346,7 @@ $(function()
 		}
 	  });
  });
-
+*/
 
 
  $('#details').summernote({
