@@ -243,7 +243,7 @@ let uploadedFilePath = null;
 let dz = new Dropzone("#fileUploader", {
     url: "{{ route('chunk.upload') }}",
     paramName: "file",
-    maxFilesize: 5000, // 5GB
+    maxFilesize: 6000, // 5GB
     chunking: true,
     forceChunking: true,
     chunkSize: 2 * 1024 * 1024, // 2MB
