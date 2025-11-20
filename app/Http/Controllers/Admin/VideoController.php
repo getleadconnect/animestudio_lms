@@ -141,6 +141,7 @@ public function videoChunkUpload(Request $request)
 			 //'explanation'=>'required',
 			 'duration'=>'required',
 			 'teacher_name'=>'required',
+			 'file_type'=>'required',
         ]);
 	  
 	  
@@ -169,12 +170,11 @@ public function videoChunkUpload(Request $request)
 			 'teacher_name'=>$request->teacher_name,
 			 'description'=>$request->description,
 			 'explanation'=>$request->explanation,
+			 'file_type'=>$request->file_type,
 			 'status'=>1,
 			 'added_by'=>$usr_id
 			]);
 
-			\Log::info("data".$result);
-			\Log::info("result".$result);
 						
 			if($result)
 			{

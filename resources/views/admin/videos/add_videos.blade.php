@@ -82,7 +82,7 @@
 
 					 	<div class="row" >
 				<div class="col-12 col-lg-6 col-xl-6 col-xxl-6" >
-					
+
 						<input type="hidden" name="uploaded_file_path" id="uploaded_file_path">
 
 						<div class="form-group">
@@ -147,7 +147,16 @@
 						</div>
 
 						<div class="form-group mt-3">
-							<label>Video File(.mp4 Only) <span class="required">*</span></label>
+							<label>File Type <span class="required">*</span></label>
+							<select class="form-control mb-3" id="file_type" name="file_type" placeholder="Select Type"  style="width:150px;" required>
+							<option value="">Select</option>
+							<option value="Video">Video</option>
+							<option value="Image">Image</option>
+							</select>
+						</div>
+
+						<div class="form-group mt-3">
+							<label>Video File(.mp4 Only)/Images <span class="required">*</span></label>
 							<!--<input class="form-control mb-3" type="file" onchange="fileValidation2()" id="video_file" name="video_file" placeholder="Video file" required> -->
 							<div id="fileUploader" class="dropzone"></div>
 
@@ -243,7 +252,7 @@ let dz = new Dropzone("#fileUploader", {
     parallelChunkUploads: false,
     addRemoveLinks: true,
 	autoProcessQueue: false, // Important: prevent auto upload
-	acceptedFiles: ".mp4,video/mp4,application/mp4,application/octet-stream",
+	acceptedFiles: "image/*,video/mp4",
 	
 	headers: {
         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -263,8 +272,9 @@ let dz = new Dropzone("#fileUploader", {
 			let desc=$("#description").val();
 			let dur=$("#duration").val();
 			let tna=$("#teacher_name").val();
+			let ftype=$("#file_type").val();
 			
-			if(cid!="" && sid!="" && chid!="" && vtitle!="" && dur!="" && tna!="" && desc!="")
+			if(cid!="" && sid!="" && chid!="" && vtitle!="" && dur!="" && tna!="" && desc!="" && ftype!="")
 			{
 				
 				$(".progress-box").removeClass('hide');

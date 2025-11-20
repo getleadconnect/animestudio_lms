@@ -13,7 +13,7 @@ class Video extends Model
 	
 	protected $fillable = ['id','course_id','subject_id','chapter_id','title',
 						'video_icon','video_file','duration','teacher_name',
-						'description','explanation','status','added_by'];
+						'description','explanation','file_type','status','added_by'];
 	 
     protected $hidden = [
 		'created_at',
