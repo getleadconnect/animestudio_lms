@@ -6,27 +6,15 @@
 .bar { background-color: #00ff00; width:0%; height:20px; }
 .percent { position:absolute; display:inline-block; left:50%; color: #040608;}
 
-.note-btn-group .dropdown-toggle::after
-{
-	content:none;
-}
-
-.note-editable
-{
-	height:200px !important;
-}
-.required
-{
-	color:red;
-}
-.progress-box{
-		z-index:99999999;width:100%;display:flex;position:absolute;justify-content:center;top:150px;
-	}
-	.progress-inner-box{
-		width:500px;height:150px; margin:0 auto;background:#fff;
-	}
+.note-btn-group .dropdown-toggle::after{
+	content:none; }
+.note-editable{ 	height:200px !important; }
+.required{	color:red;}
+.progress-box{ z-index:99999999;width:100%;display:flex;position:absolute;justify-content:center;top:150px;	}
+.progress-inner-box{ width:500px;height:150px; margin:0 auto;background:#fff;}
 .hide{display:none;}
 .show{display:block;}
+.dropzone { padding: 2px !important; }
 
 </style>
 
