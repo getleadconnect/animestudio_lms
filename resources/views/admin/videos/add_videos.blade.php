@@ -82,7 +82,8 @@
 
 					 	<div class="row" >
 				<div class="col-12 col-lg-6 col-xl-6 col-xxl-6" >
-						<input type="text" name="uploaded_file_path" id="uploaded_file_path">
+					
+						<input type="hidden" name="uploaded_file_path" id="uploaded_file_path">
 
 						<div class="form-group">
 							<label>Course <span class="required">*</span></label>
