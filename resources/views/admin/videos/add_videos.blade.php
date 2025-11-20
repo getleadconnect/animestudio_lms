@@ -19,6 +19,15 @@
 {
 	color:red;
 }
+.progress-box{
+		z-index:99999999;width:100%;display:flex;position:absolute;justify-content:center;top:150px;
+	}
+	.progress-inner-box{
+		width:500px;height:150px; margin:0 auto;background:#fff;
+	}
+.hide{display:none;}
+.show{display:block;}
+
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css">
@@ -47,7 +56,7 @@
               </div>  -->
 			  
             </div>
-			
+
             <!--end breadcrumb-->
 
               <div class="card">
@@ -62,6 +71,7 @@
 				  
 				  </div>
                 </div>
+
                 <div class="card-body">
                    <div class="row" >
                      <div class="col-12 col-lg-12">
@@ -72,8 +82,7 @@
 
 					 	<div class="row" >
 				<div class="col-12 col-lg-6 col-xl-6 col-xxl-6" >
-
-						<input type="hidden" name="uploaded_file_path" id="uploaded_file_path">
+						<input type="text" name="uploaded_file_path" id="uploaded_file_path">
 
 						<div class="form-group">
 							<label>Course <span class="required">*</span></label>
@@ -142,16 +151,7 @@
 							<div id="fileUploader" class="dropzone"></div>
 
 						</div>
-
-						<div class="form-group mt-2">
-						<div style="margin-top:20px;">
-							<div id="progressText">0%</div>
-							<div id="progressWrapper" style="width:300px; height:20px; background:#eee;">
-								<div id="progressBar" style="height:20px; width:0%; background:#28a745;"></div>
-							</div>
-						</div>
-						</div>
-				
+								
 
 						<div class="form-group mt-3">
 							<button type="button" id="btnSubmit" class="btn btn-primary">Save changes</button>
@@ -170,6 +170,37 @@
                    </div><!--end row-->
                 </div>
               </div>
+
+
+			<!--- to provide progress bar ----------------------------------------------->
+				<div class="progress-box hide" >
+					<div class="progress-inner-box">
+
+					<div class="card" style="border:1px solid #e0e5f6;">
+						<div class="card-header p-y-3" style="background-color:#e0e5f6;">
+							<label>File Uploading</label>
+						</div>
+						<div class="card-body">
+						<div class="row">
+							<div class="col-12">
+								<div style="display:flex !important;justify-content:center;">
+									<div id="progressText" style="position:absolute;margin:0 auto;">0%</div>
+									<div id="progressWrapper" style="width:100%; height:20px; background:#eee;">
+										<div id="progressBar" style="height:20px; width:0%; background:#28a745;"></div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12">
+								<label id="mes_upload" style="color:green">&nbsp;</label>
+							</div>
+						</div>
+					</div>
+					</div>
+					</div>
+				</div>
+			<!--------------------------------------------------------------------------->
+
+
 
 		<div class="modal fade" id="BasicModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
@@ -234,10 +265,15 @@ let dz = new Dropzone("#fileUploader", {
 			
 			if(cid!="" && sid!="" && chid!="" && vtitle!="" && dur!="" && tna!="" && desc!="")
 			{
+				
+				$(".progress-box").removeClass('hide');
+				$(".progress-box").addClass('show');
+
 				if (myDropzone.getQueuedFiles().length === 0) {
 					alert("Please select a file for upload.");
 					return;
 				}
+				document.getElementById("mes_upload").innerText="Please Wait, Uploading..!";
 				myDropzone.processQueue(); // start upload
 			}
 			else
@@ -267,6 +303,7 @@ let dz = new Dropzone("#fileUploader", {
 
             // This is the final response
             if (response.path) {
+
                 uploadedFilePath = response.path;
                 document.getElementById("uploaded_file_path").value = response.path;
 
@@ -279,31 +316,26 @@ let dz = new Dropzone("#fileUploader", {
 
             console.log("File uploaded:", response);
 			if (uploadedFilePath) {
-				alert("File uploaded");
+				document.getElementById("mes_upload").innerText="File Uploaded";
 				document.getElementById("addVideo").submit();
 			}
         });
     }
 });
 
-$(document).on(click,'.dz-remove',function()
-{
-	alert("ok");
-	document.getElementById("progressText").innerText = "";
-	document.getElementById("progressBar").style.width = "0%";
-});
 
-document.getElementById("btnSubmit").addEventListener("click", function () {
+/*document.getElementById("btnSubmit").addEventListener("click", function () {
 
     if (dz.getUploadingFiles().length > 0) {
-        alert("Please wait — file is still uploading.");
+        document.getElementById("mes_upload").innerText="Uploading...!";
     }
 
     if (!uploadedFilePath) {
         alert("Please upload a file first.");
     }
 	
-});
+});*/
+
 </script>
 
 

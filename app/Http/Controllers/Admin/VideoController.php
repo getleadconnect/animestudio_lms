@@ -89,32 +89,43 @@ class VideoController extends Controller
 
 public function videoChunkUpload(Request $request)   
 {
-    $receiver = new FileReceiver("file", $request, HandlerFactory::classFromRequest($request));
+	try
+	{
+		$receiver = new FileReceiver("file", $request, HandlerFactory::classFromRequest($request));
 
-    if (!$receiver->isUploaded()) {
-        return response()->json(['error' => 'File not uploaded'], 400);
-    }
+		if (!$receiver->isUploaded()) {
+			return response()->json(['error' => 'File not uploaded'], 400);
+		}
 
-    $fileReceived = $receiver->receive();
+		$fileReceived = $receiver->receive();
 
-    if ($fileReceived->isFinished()) {
-        $file = $fileReceived->getFile();
+		if ($fileReceived->isFinished()) {
+			$file = $fileReceived->getFile();
 
-        $fileName = time() . "_" . $file->getClientOriginalName();
-        $path = Storage::disk("public")->putFileAs("uploads", $file, $fileName);
+			$fileName = time() . "_" . $file->getClientOriginalName();
+			//$path = Storage::disk("spaces")->putFile("video_files", $file, 'public');
+			//$path=Storage::disk('spaces')->put("video_files", fopen($file->getPathname(), 'r+'), 'public');
+			$path=Storage::disk('spaces')->putFileAs('video_files',$file,$fileName,'public');           // ACL = public
+        	\Log::info("Path=".$path);
 
-        @unlink($file->getPathname());
+			unlink($file->getPathname());
 
-        return response()->json([
-            "status" => "completed",
-            "path" => $path
-        ]);
-    }
+			return response()->json([
+				"status" => "completed",
+				"path" => $path
+			]);
+		}
 
-    return response()->json([
-        "status" => "chunk_uploaded",
-        "progress" => $fileReceived->handler()->getPercentageDone()
-    ]);
+		return response()->json([
+			"status" => "chunk_uploaded",
+			"progress" => $fileReceived->handler()->getPercentageDone()
+		]);
+	}
+	catch(\Exception $e)
+	{
+			\Log::info($e->getMessage());
+			return response()->json(["status" => $e->getMessage()]);
+	}
 }
 
 
@@ -144,13 +155,16 @@ public function videoChunkUpload(Request $request)
 			
 			$usr_id=Auth::guard('admin')->user()->id;
 
+
+			$filename=substr($request->uploaded_file_path,strpos($request->uploaded_file_path,'/')+1);
+
 			$result=Video::create([
 			 'course_id'=>$request->course_id,
 			 'subject_id'=>$request->subject_id,
 			 'chapter_id'=>$request->chapter_id,
 			 'title'=>$request->title,
 			 //'video_file'=>$fname2,
-			 'video_file'=>$request->uploaded_file_path,
+			 'video_file'=>$filename,
 			 'duration'=>$request->duration,
 			 'teacher_name'=>$request->teacher_name,
 			 'description'=>$request->description,
@@ -158,6 +172,9 @@ public function videoChunkUpload(Request $request)
 			 'status'=>1,
 			 'added_by'=>$usr_id
 			]);
+
+			\Log::info("data".$result);
+			\Log::info("result".$result);
 						
 			if($result)
 			{
@@ -341,6 +358,7 @@ public function view_data(Request $request)
 			];
 			
 			$result=Video::whereId($id)->update($new_dat);
+			
 			
 			if($result)
 			{
