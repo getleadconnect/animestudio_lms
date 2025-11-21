@@ -911,7 +911,15 @@ class StudentAuthController extends Controller
                         ->orderBy('courses.course_name', 'asc')
                         ->get();
 
-            return view('website.student.easy-tips', compact('courses'));
+            // Get course IDs
+            $courseIds = $courses->pluck('id')->toArray();
+
+            // Get total easy tips count for student's purchased courses
+            $totalTipsCount = EasyTips::whereIn('course_id', $courseIds)
+                                      ->where('status', 1)
+                                      ->count();
+
+            return view('website.student.easy-tips', compact('courses', 'totalTipsCount'));
 
         } catch (\Exception $e) {
             \Log::error('Easy tips page error: ' . $e->getMessage());
@@ -920,25 +928,61 @@ class StudentAuthController extends Controller
         }
     }
 
-    // Filter easy tips by course
+    // Get initial easy tips (first 10)
+    public function getInitialEasyTips()
+    {
+        try {
+            $user = Auth::guard('student')->user();
+
+            // Get student's purchased course IDs
+            $courseIds = DB::table('subscriptions')
+                        ->where('student_id', $user->student_id)
+                        ->where('status', 1)
+                        ->pluck('course_id')
+                        ->toArray();
+
+            // Get first 10 easy tips for student's purchased courses
+            $tips = EasyTips::select('id', 'course_id', 'subject_id', 'chapter_id', 'title', 'description', 'tips_icon', 'tips_file', 'file_type')
+                            ->whereIn('course_id', $courseIds)
+                            ->where('status', 1)
+                            ->orderBy('id', 'ASC')
+                            ->limit(10)
+                            ->get();
+
+            return response()->json([
+                'success' => true,
+                'tips' => $tips
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Get initial easy tips error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to load tips',
+                'tips' => []
+            ], 500);
+        }
+    }
+
+    // Filter easy tips by chapter
     public function filterEasyTips(Request $request)
     {
         try {
-            $courseId = $request->input('course_id');
+            $chapterId = $request->input('chapter_id');
 
-            if (!$courseId) {
+            if (!$chapterId) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Course ID is required',
+                    'message' => 'Chapter ID is required',
                     'tips' => []
                 ]);
             }
 
-            // Get easy tips for the selected course
-            $tips = EasyTips::select('id', 'course_id', 'title', 'description', 'tips_icon', 'tips_file', 'file_type')
-                            ->where('course_id', $courseId)
+            // Get easy tips for the selected chapter
+            $tips = EasyTips::select('id', 'course_id', 'subject_id', 'chapter_id', 'title', 'description', 'tips_icon', 'tips_file', 'file_type')
+                            ->where('chapter_id', $chapterId)
                             ->where('status', 1)
-                            ->orderBy('created_at', 'DESC')
+                            ->orderBy('id', 'ASC')
                             ->get();
 
             return response()->json([

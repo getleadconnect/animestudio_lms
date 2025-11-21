@@ -446,15 +446,41 @@
 
     <div class="filter-section">
         <div class="filter-dropdown-wrapper">
-            <label for="courseFilter">
+
+        <div class="row">
+            <div class="col-12 col-lg-4 col-md-4, col-xl-4 col-xxl-4">
+                <label for="courseFilter">
                 <i class="fas fa-filter me-2"></i> Select Course
             </label>
             <select id="courseFilter" class="form-select">
-                <option value="">Select a course to view tips...</option>
-                @foreach($courses as $index => $course)
-                    <option value="{{ $course->id }}" {{ $index === 0 ? 'selected' : '' }}>{{ $course->course_name }}</option>
+                <option value="">Select a course...</option>
+                @foreach($courses as $course)
+                    <option value="{{ $course->id }}">{{ $course->course_name }}</option>
                 @endforeach
             </select>
+            </div>
+
+            <div class="col-12 col-lg-4 col-md-4, col-xl-4 col-xxl-4">
+                <label for="courseFilter">
+                <i class="fas fa-filter me-2"></i> Select Subject
+            </label>
+            <select id="subject_id" name="subject_id" class="form-select">
+                <option value="">Select a subject</option>
+                
+            </select>
+            </div>
+
+            <div class="col-12 col-lg-4 col-md-4, col-xl-4 col-xxl-4">
+                 <label for="chapter_id">
+                <i class="fas fa-filter me-2"></i> Select Chapter
+            </label>
+            <select  id="chapter_id" name="chapter_id" class="form-select">
+                <option value="">Select a chapter...</option>
+
+            </select>
+            </div>
+        </div>
+
         </div>
 
         <div class="tips-info-note">
@@ -473,8 +499,8 @@
     <div id="tipsContainer">
         <div class="empty-state">
             <i class="fas fa-lightbulb"></i>
-            <h3>Select a course to view tips</h3>
-            <p>Choose a course from the dropdown above to see available easy tips</p>
+            <h3>Total Easy Tips Available: {{ $totalTipsCount }}</h3>
+            <p>Choose course, subject, and chapter from the dropdowns above to see available easy tips</p>
         </div>
     </div>
 </div>
@@ -515,29 +541,86 @@
     </div>
 </div>
 
+<script src="{{asset('assets/js/jquery.min.js')}}"></script>
 <script>
+
     const courseFilter = document.getElementById('courseFilter');
+    const chapterFilter = document.getElementById('chapter_id');
     const tipsContainer = document.getElementById('tipsContainer');
     const loadingSpinner = document.getElementById('loadingSpinner');
     const easyTipsBasePath = '{{ config('constants.easy_tips') }}';
+    const totalTipsCount = {{ $totalTipsCount }};
 
-    // Course filter change event
+    // Course filter change event - only loads subjects
     courseFilter.addEventListener('change', function() {
         const courseId = this.value;
         if (courseId) {
-            loadTips(courseId);
+            getSubject(courseId);
         } else {
             showEmptyState();
         }
     });
 
-    // Load tips for selected course
-    async function loadTips(courseId) {
+function getSubject(courseId, callback)
+{
+	   jQuery.ajax({
+			type: "GET",
+			url: "get-subjects-for-videos"+"/"+courseId,
+			dataType: 'html',
+			//data: {vid: vid},
+			success: function(res)
+			{
+			   $("#subject_id").html(res);
+			   if (callback && typeof callback === 'function') {
+				   callback();
+			   }
+			}
+		});
+
+};
+
+
+function getChapters(subjectId, callback)
+{
+	jQuery.ajax({
+			type: "GET",
+			url: "get-chapters-for-videos"+"/"+subjectId,
+			dataType: 'html',
+			success: function(res)
+			{
+			   $("#chapter_id").html(res);
+			   if (callback && typeof callback === 'function') {
+				   callback();
+			   }
+			}
+		});
+};
+
+$("#subject_id").change(function()
+{
+	var id=$(this).val();
+	getChapters(id);
+});
+
+// Chapter filter change event - loads easy tips
+$("#chapter_id").change(function()
+{
+	var chapterId = $(this).val();
+	if (chapterId) {
+		loadTips(chapterId);
+	} else {
+		showEmptyState();
+	}
+});
+
+
+    // Load tips for selected chapter
+    async function loadTips(chapterId) {
         loadingSpinner.classList.add('active');
         tipsContainer.innerHTML = '';
 
         try {
-            const response = await fetch(`{{ route('student.easy-tips.filter') }}?course_id=${courseId}`, {
+            const response = await fetch(`{{ route('student.easy-tips.filter') }}?chapter_id=${chapterId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -578,6 +661,7 @@
         tipsContainer.appendChild(grid);
     }
 
+
     // Create individual tip card
     function createTipCard(tip) {
         const card = document.createElement('div');
@@ -607,6 +691,8 @@
 
         return card;
     }
+
+
 
     // Open tip (video or PDF)
     function openTip(tip) {
@@ -676,8 +762,8 @@
         tipsContainer.innerHTML = `
             <div class="empty-state">
                 <i class="fas fa-lightbulb"></i>
-                <h3>Select a course to view tips</h3>
-                <p>Choose a course from the dropdown above to see available easy tips</p>
+                <h3>Total Easy Tips Available: ${totalTipsCount}</h3>
+                <p>Choose course, subject, and chapter from the dropdowns above to see available easy tips</p>
             </div>
         `;
     }
@@ -688,7 +774,7 @@
             <div class="empty-state">
                 <i class="fas fa-info-circle"></i>
                 <h3>No tips available</h3>
-                <p>There are no easy tips available for this course yet</p>
+                <p>There are no easy tips available for this chapter yet</p>
             </div>
         `;
     }
@@ -732,14 +818,42 @@
         }
     });
 
-    // Load tips for first course on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        const courseFilter = document.getElementById('courseFilter');
-        const firstCourseId = courseFilter.value;
+    // Load first 10 easy tips on page load
+    async function loadInitialTips() {
+        loadingSpinner.classList.add('active');
+        tipsContainer.innerHTML = '';
 
-        if (firstCourseId) {
-            loadTips(firstCourseId);
+        try {
+            const response = await fetch(`{{ route('student.easy-tips.initial') }}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                if (data.tips.length > 0) {
+                    displayTips(data.tips);
+                } else {
+                    showNoTips();
+                }
+            } else {
+                showError(data.message);
+            }
+        } catch (error) {
+            console.error('Error loading initial tips:', error);
+            showError('Failed to load tips. Please try again.');
+        } finally {
+            loadingSpinner.classList.remove('active');
         }
+    }
+
+    // Auto-load first 10 easy tips on page load
+    $(document).ready(function() {
+        loadInitialTips();
     });
 </script>
 @endsection

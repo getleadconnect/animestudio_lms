@@ -71,6 +71,7 @@ Route::controller(StudentAuthController::class)->group(function() {
 
         // Easy Tips routes
         Route::get('/easytips', 'easyTips')->name('student.easy-tips');
+        Route::get('/easytips/initial', 'getInitialEasyTips')->name('student.easy-tips.initial');
         Route::get('/easytips/filter', 'filterEasyTips')->name('student.easy-tips.filter');
     });
 });
