@@ -595,7 +595,7 @@
                     `<i class="fas fa-lightbulb default-icon"></i>`
                 }
                 <span class="file-type-badge ${fileType}">
-                    <i class="fas fa-${fileType == 'video' ? 'play-circle' : 'file-pdf'} me-1"></i>
+                    <i class="fas fa-${fileType == 'video' ? 'play-circle' : fileType == 'pdf' ? 'file-pdf':'picture-o' }  me-1"></i>
                     ${fileTypeLabel}
                 </span>
             </div>
