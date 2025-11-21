@@ -35,7 +35,7 @@ class StudentAuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required|digits:10',
+            'email' => 'required',
             'password' => 'required|min:6'
         ]);
 
@@ -45,7 +45,7 @@ class StudentAuthController extends Controller
                 ->withInput($request->except('password'));
         }
 
-        $user = User::where('mobile', $request->mobile)
+        $user = User::where('email', $request->email)
                     ->where('status', 1)
                     ->first();
 

@@ -184,17 +184,15 @@
                         <form method="POST" action="{{ route('student.login.submit') }}">
                             @csrf
                             <div class="mb-3">
-                                <label for="mobile" class="form-label">Mobile Number</label>
+                                <label for="mobile" class="form-label">Email</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
-                                    <input type="tel"
+                                    <input type="email"
                                            class="form-control @error('mobile') is-invalid @enderror"
-                                           id="mobile"
-                                           name="mobile"
-                                           placeholder="Enter 10 digit mobile number"
-                                           value="{{ old('mobile') }}"
-                                           maxlength="10"
-                                           pattern="[0-9]{10}"
+                                           id="email"
+                                           name="email"
+                                           placeholder="Enter email address"
+                                           value="{{ old('email') }}"
                                            required>
                                 </div>
                                 @error('mobile')
@@ -250,9 +248,9 @@
 @push('scripts')
 <script>
     // Auto-format mobile number
-    document.getElementById('mobile').addEventListener('input', function(e) {
+    /*document.getElementById('mobile').addEventListener('input', function(e) {
         this.value = this.value.replace(/\D/g, '');
-    });
+    });*/
 
     // Show/Hide password
     function togglePassword() {
