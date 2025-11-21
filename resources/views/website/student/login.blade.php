@@ -186,7 +186,7 @@
                             <div class="mb-3">
                                 <label for="mobile" class="form-label">Email</label>
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                     <input type="email"
                                            class="form-control @error('mobile') is-invalid @enderror"
                                            id="email"
