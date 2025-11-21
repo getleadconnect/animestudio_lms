@@ -618,6 +618,37 @@
             font-size: 0.75rem;
         }
     }
+
+
+.tips-info-note {
+        background: linear-gradient(135deg, #fffbf0 0%, #fff9e6 100%);
+        border-left: 4px solid #ffc107;
+        padding: 15px 20px;
+        border-radius: 8px;
+        flex: 0 0 auto;
+        min-width: 250px;
+    }
+
+    .tips-info-note .note-icon {
+        color: #ffc107;
+        font-size: 1.2rem;
+        margin-right: 10px;
+    }
+
+    .tips-info-note .note-text {
+        font-size: 0.9rem;
+        color: #666;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    /* Hide Easy Tips description on mobile */
+    @media (max-width: 767px) {
+        .tips-info-note {
+            display: none;
+        }
+    }
+
 </style>
 @endpush
 
@@ -656,7 +687,7 @@
 
             <!-- Info Cards Row -->
     <div class="row mt-4">
-        <div class="col-12 col-md-10 col-lg-10">
+        <div class="col-12 col-md-12 col-lg-12">
 
             <div class="row">
                 <!-- My Courses Card -->
@@ -714,8 +745,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-2">
-
+         {{--<!-- <div class="col-12 col-md-6 col-lg-2">
                 <a href="{{ route('student.easy-tips') }}" class="info-card card-tips">
                         <div class="info-card-icon">
                             <i class="fas fa-lightbulb"></i>
@@ -725,14 +755,44 @@
                             <span class="info-card-count">View Tips</span>
                         </div>
                     </a>
-        </div>
+        </div> --> --}}
 
         </div>
 
+        <div class="row">
+            <div class="col-12">
+
+                   <a href="{{ route('student.easy-tips') }}" class="info-card card-tips">
+                        <div class="info-card-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="info-card-content">
+
+                            <div class="row">
+                                <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+
+                                <p class="info-card-text">Easy Tips/Materials</p>
+                                <span class="info-card-count">View Tips And Materials</span>
+
+                                </div>
+                                    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                        
+                                <div class="tips-info-note">
+                                    <p class="note-text">
+                                        <i class="fas fa-info-circle note-icon"></i>
+                                        <strong>Easy Tips:</strong> Quick learning resources to help you understand concepts faster and remember them better.
+                                    </p>
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+                    </a>
+            </div>
+        </div>
 
 
-
-            <div class="row mt-3">
+            <div class="row ">
                 <!-- My Courses -->
                 <div class="col-md-12">
                     <div class="dashboard-card">
