@@ -934,6 +934,11 @@
                     <i class="fas fa-file-pdf me-2"></i>PDF Notes
                 </button>
             </li>
+            <li class="nav-item" role="presentation">
+                <a href="{{url('easytips')}}" class="nav-link" id="pdf-notes-tab"  type="button" role="tab" aria-controls="pdf-notes" aria-selected="false">
+                    <i class="fas fa-file me-2"></i>Easy Tips/Materials 
+                </a>
+            </li>
         </ul>
 
 
@@ -1158,6 +1163,7 @@
                 }
             });
         }
+
 
         // Chapter change event
         if (chapterSelect) {
