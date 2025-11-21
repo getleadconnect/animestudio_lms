@@ -584,8 +584,8 @@
         card.className = 'tip-card';
         card.onclick = () => openTip(tip);
 
-        const fileType = tip.file_type == 1 ? 'video' : 'pdf';
-        const fileTypeLabel = tip.file_type == 1 ? 'Video' : 'PDF';
+        const fileType = tip.file_type == 1 ? 'video' : tip.file_type==2 ?'pdf':'img';
+        const fileTypeLabel = tip.file_type == 1 ? 'Video' : tip.file_type==2 ? 'PDF' :'IMG';
         const iconUrl = tip.tips_icon ? easyTipsBasePath + tip.tips_icon : '';
 
         card.innerHTML = `
