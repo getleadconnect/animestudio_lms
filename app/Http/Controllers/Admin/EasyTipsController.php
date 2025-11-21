@@ -154,9 +154,13 @@ public function view_data(Request $request)
 					{
 						$ft='<span class="badge bg-info">Video</span>';
 					}
+					else if($r->file_type==2)
+					{
+						$ft='<span class="badge bg-info">PDF</span>';
+					}
 					else
 					{
-						$ft='<span class="badge bg-secondary">PDF</span>';
+						$ft='<span class="badge bg-secondary">Image</span>';
 					}
 				
 					$uData['id'] = ++$key;
