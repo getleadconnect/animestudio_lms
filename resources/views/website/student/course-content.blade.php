@@ -1044,6 +1044,7 @@
                         <div class="no-videos">
                             <i class="fas fa-video-slash"></i>
                             <p>Select a chapter to load videos</p>
+
                         </div>
                     </div>
                 </div>
@@ -1305,11 +1306,13 @@
 
             const duration = video.video_duration || '00:00';
             const thumbnail = video.video_thumbnail || "{{config('constants.video_file')}}"+video.video_icon;
+            //const thumbnail = "{{config('constants.video_icon_null')}}";
+            const thumbnail_null = "{{config('constants.video_icon_null')}}";
             const lockedClass = isLocked ? 'locked' : '';
 
             html += `
                 <div class="video-item ${lockedClass}" data-index="${index}" onclick="playVideo(${index})">
-                    <img src="${thumbnail}" alt="${video.video_name}" class="video-thumbnail" onerror="this.src='https://via.placeholder.com/120x70/333/fff?text=No+Image'">
+                    <img src="${thumbnail}" alt="${video.video_name}" class="video-thumbnail" onerror="this.src='${thumbnail_null}'">
                     <div class="video-details">
                         <div class="video-item-title">${video.video_name}</div>
                         <div class="video-duration">
