@@ -270,6 +270,8 @@ let dz = new Dropzone("#fileUploader", {
 
 				if (myDropzone.getQueuedFiles().length === 0) {
 					alert("Please select a file for upload.");
+					$(".progress-box").removeClass('show');
+					$(".progress-box").addClass('hide');
 					return;
 				}
 				document.getElementById("mes_upload").innerText="Please Wait, Uploading..!";

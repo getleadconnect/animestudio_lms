@@ -169,12 +169,13 @@
 								<option value="" selected>Select</option>
 								<option value="1">Video</option>	
 								<option value="2">PDF</option>	
+								<option value="3">Images</option>	
 								</select>
 							</div>
 							</div>
 							<div class="col-9 col-lg-9 col-xl-9col-xxl-9">
 							<div class="form-group">
-								<label>Select File(video/pdf)</label>
+								<label>Select File(video/pdf/Images)</label>
 								<input type="file" id="tips_file" class="form-control mb-3" onchange="fileValidation1()" name="tips_file" placeholder="select file(video/PDF)" required>
 								</div>
 							</div>
@@ -486,6 +487,10 @@ function fileValidation1()
 		else if(ftype==2)	 
 		{
 			 allowedExtensions = /(\.pdf)$/i; 
+		}
+		else if(ftype==3)	 
+		{
+			 allowedExtensions = /(\.jpg|\.jpeg|\.jpe|\.png)$/i;  
 		}
 		 
 		var filePath = fileInput.value; 
