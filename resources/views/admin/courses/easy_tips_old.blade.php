@@ -115,7 +115,7 @@
 							<div class="row">
 							<label>Select Course</label>
 							<div class="col-12 col-lg-12 col-xl-12 col-xxl-12">	
-								<select class="form-control mb-3" id="course_id" name="course_id" required>
+								<select class="form-control mb-3" name="course_id" required>
 								<option value="">Select</option>
 								@foreach($crs as $r)
 								<option value="{{$r->id}}">{{$r->course_name}}</option>	
@@ -124,32 +124,6 @@
 								</div>
 							</div>
 							</div>
-
-							<div class="form-group">
-							<div class="row">
-							<label>Select Subject</label>
-							<div class="col-12 col-lg-12 col-xl-12 col-xxl-12">	
-								<select class="form-control mb-3" id="subject_id" name="subject_id" required>
-								<option value="">Select</option>
-								
-								</select>
-								</div>
-							</div>
-							</div>
-
-							<div class="form-group">
-							<div class="row">
-							<label>Select Chapter</label>
-							<div class="col-12 col-lg-12 col-xl-12 col-xxl-12">	
-								<select class="form-control mb-3" id="chapter_id" name="chapter_id" required>
-								<option value="">Select</option>
-								
-								</select>
-								</div>
-							</div>
-							</div>
-
-
 							<div class="form-group">
 							<div class="row">
 							<div class="col-12 col-lg-12 col-xl-12 col-xxl-12">
@@ -257,40 +231,7 @@ else if(mes[0]=="danger")
 }
 
 //---------------------------------------------------------------------------
-$("#course_id").change(function()
-{
-	var id=$(this).val();
-	
-	jQuery.ajax({
-			type: "GET",
-			url: "get-subjects-for-videos"+"/"+id,
-			dataType: 'html',
-			//data: {vid: vid},
-			success: function(res)
-			{
-			   $("#subject_id").html(res);
-			}
-		});
 
-});
-
-
-$("#subject_id").change(function()
-{
-	var id=$(this).val();
-	
-	jQuery.ajax({
-			type: "GET",
-			url: "get-chapters-for-videos"+"/"+id,
-			dataType: 'html',
-			//data: {vid: vid},
-			success: function(res)
-			{
-			   $("#chapter_id").html(res);
-			}
-		});
-
-});
 
 tips_icon.onchange = evt => {
   const [file] = tips_icon.files
@@ -312,6 +253,14 @@ tips_icon.onchange = evt => {
 		}  
 }
 
+
+
+$("#file_type").change(function()
+{
+	
+	
+	
+});
 
 
 $(document).ready(function()

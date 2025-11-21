@@ -34,7 +34,10 @@ class EasyTipsController extends Controller
   public function store(Request $request)
   {
 	  $validate = Validator::make(request()->all(),[
-             'title'=>'required',
+             'course_id'=>'required',
+			 'subject_id'=>'required',
+			 'chapter_id'=>'required',
+			 'title'=>'required',
 			 'description'=>'required',
 			 'tips_file'=>'required',
 			 'file_type'=>'required'
@@ -68,6 +71,8 @@ class EasyTipsController extends Controller
 
 			$result=EasyTips::create([
 			 'course_id'=>$request->course_id,
+			 'subject_id'=>$request->subject_id,
+			 'chapter_id'=>$request->chapter_id,
 			 'title'=>$request->title,
 			 'description'=>$request->description,
 			 'tips_icon'=>$fname1,
